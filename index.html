@@ -17,6 +17,18 @@
     table { width:100%; border-collapse:collapse; margin-top:10px; }
     th, td { padding:9px; border-bottom:1px solid #e5e7eb; text-align:left; }
     .note { font-size:.92rem; color:#606a78; }
+  
+    .builder-row { display:grid; grid-template-columns: 1.2fr 1fr auto; gap:10px; align-items:end; margin-bottom:10px; }
+    .builder-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+    .pathway-list { margin-top:16px; border:1px solid #e5e7eb; border-radius:10px; overflow:hidden; }
+    .pathway-step { display:grid; grid-template-columns: 48px 1.2fr .8fr .8fr auto; gap:10px; padding:10px 12px; border-bottom:1px solid #e5e7eb; align-items:center; }
+    .pathway-step:last-child { border-bottom:0; }
+    .step-num { font-weight:700; }
+    .source-tag { font-size:.82rem; color:#5b6472; }
+    .danger-button { background:#7f1d1d; color:white; }
+    .summary-table td, .summary-table th { text-align:right; }
+    .summary-table td:first-child, .summary-table th:first-child { text-align:left; }
+
   </style>
 </head>
 <body>
@@ -70,7 +82,54 @@
     <p class="note">Prototype based on the values in the uploaded Excel workbook. Validate all equations and research assumptions before formal scientific release.</p>
   </section>
 
+  
   <section class="card">
+    <h2>Visual Transfer Pathway Builder</h2>
+    <p class="note">
+      Build a sequence of DNA-transfer or recovery events. Each event applies the selected percentage
+      to the DNA amount remaining from the previous step. Use this as an exploratory model only.
+    </p>
+
+    <div class="grid">
+      <div>
+        <label for="builderInitialDNA">Starting DNA (ng)</label>
+        <input id="builderInitialDNA" type="number" step="any" placeholder="Enter starting DNA">
+      </div>
+    </div>
+
+    <div class="builder-row">
+      <div>
+        <label for="eventSelect">Event / Method</label>
+        <select id="eventSelect"></select>
+      </div>
+
+      <div>
+        <label for="eventPercent">Percent applied (%)</label>
+        <input id="eventPercent" type="number" step="any" placeholder="Select an event or enter a value">
+      </div>
+
+      <div>
+        <button type="button" onclick="addPathwayEvent()">Add Event</button>
+      </div>
+    </div>
+
+    <p class="note" id="eventSourceNote"></p>
+
+    <div class="pathway-list" id="pathwayList">
+      <div class="note" style="padding:12px;">No events added yet.</div>
+    </div>
+
+    <div class="builder-actions">
+      <button type="button" onclick="calculateVisualPathway()">Calculate Pathway</button>
+      <button type="button" class="secondary-button" onclick="clearVisualPathway()">Clear Pathway</button>
+    </div>
+
+    <div class="result empty" id="visualPathwayResult">
+      Add at least one event, then click Calculate Pathway.
+    </div>
+  </section>
+
+<section class="card">
     <h2>Scientific Publications &amp; Research Sources</h2>
 
     <div class="science-box">
@@ -191,6 +250,143 @@ function useLabValue(fieldId, value, label){
   if (note) note.textContent = `Selected laboratory parameter: ${label} — ${value}%.`;
   document.getElementById(fieldId).focus();
 }
+
+
+const pathwayCatalog = [
+  {name:"Drug baggie surface retention", percent:1, source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
+  {name:"Brass door plate surface retention", percent:6, source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
+  {name:"Steering wheel surface retention", percent:18, source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
+  {name:"Glass slide surface retention", percent:16, source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
+  {name:"Gelatine-based polymer surface retention", percent:15, source:"Aldrin John N. Alviar (Graduate Thesis)"},
+  {name:"PVA-PDMS surface retention", percent:15, source:"Aldrin John N. Alviar (Graduate Thesis)"},
+  {name:"Subway pole surface retention", percent:16, source:"Aldrin John N. Alviar (Graduate Thesis)"},
+  {name:"Knife handle surface retention", percent:13, source:"Aldrin John N. Alviar (Graduate Thesis)"},
+  {name:"Lorica leather surface retention", percent:6, source:"Alviar, Wickenheiser & Hall (2026) / Graduate Thesis"},
+  {name:"Knife sheath snap button surface retention", percent:11, source:"Alviar, Wickenheiser & Hall (2026)"},
+  {name:"Swab retention", percent:25, source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
+  {name:"DNA IQ extraction loss", percent:49, source:"Alviar, Wickenheiser & Hall (2026) / Graduate Thesis"},
+  {name:"Organic DNA extraction loss", percent:33, source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
+  {name:"Custom event", percent:null, source:"User-defined"}
+];
+
+let visualPathwayEvents = [];
+
+function initPathwayBuilder(){
+  const select = document.getElementById("eventSelect");
+  if (!select) return;
+  select.innerHTML = pathwayCatalog.map((e, i) => `<option value="${i}">${e.name}</option>`).join("");
+  select.addEventListener("change", updateEventSelection);
+  updateEventSelection();
+}
+
+function updateEventSelection(){
+  const idx = parseInt(document.getElementById("eventSelect").value, 10);
+  const item = pathwayCatalog[idx];
+  const pct = document.getElementById("eventPercent");
+  const note = document.getElementById("eventSourceNote");
+  pct.value = item.percent === null ? "" : item.percent;
+  note.textContent = `Source: ${item.source}`;
+}
+
+function addPathwayEvent(){
+  const idx = parseInt(document.getElementById("eventSelect").value, 10);
+  const item = pathwayCatalog[idx];
+  const pct = parseFloat(document.getElementById("eventPercent").value);
+
+  if (!Number.isFinite(pct) || pct < 0 || pct > 100){
+    alert("Enter a percentage from 0 to 100.");
+    return;
+  }
+
+  visualPathwayEvents.push({
+    name: item.name,
+    percent: pct,
+    source: item.source
+  });
+
+  renderPathwayList();
+}
+
+function removePathwayEvent(index){
+  visualPathwayEvents.splice(index,1);
+  renderPathwayList();
+}
+
+function renderPathwayList(){
+  const list = document.getElementById("pathwayList");
+  if (!visualPathwayEvents.length){
+    list.innerHTML = '<div class="note" style="padding:12px;">No events added yet.</div>';
+    return;
+  }
+
+  list.innerHTML = visualPathwayEvents.map((e,i) => `
+    <div class="pathway-step">
+      <div class="step-num">${i+1}</div>
+      <div>
+        <strong>${e.name}</strong><br>
+        <span class="source-tag">${e.source}</span>
+      </div>
+      <div>${e.percent.toFixed(2)}%</div>
+      <div>loss</div>
+      <div><button type="button" class="danger-button small-button" onclick="removePathwayEvent(${i})">Remove</button></div>
+    </div>
+  `).join("");
+}
+
+function calculateVisualPathway(){
+  const start = parseFloat(document.getElementById("builderInitialDNA").value);
+
+  if (!Number.isFinite(start) || start <= 0){
+    setResult("visualPathwayResult","Please enter a valid starting DNA amount greater than 0.");
+    return;
+  }
+
+  if (!visualPathwayEvents.length){
+    setResult("visualPathwayResult","Please add at least one pathway event.");
+    return;
+  }
+
+  let current = start;
+  let rows = "";
+
+  visualPathwayEvents.forEach((e, i) => {
+    const before = current;
+    const retained = before * (1 - e.percent/100);
+    current = retained;
+    rows += `
+      <tr>
+        <td>${i+1}. ${e.name}</td>
+        <td>${e.percent.toFixed(2)}%</td>
+        <td>${before.toFixed(4)} ng</td>
+        <td>${current.toFixed(4)} ng</td>
+      </tr>
+    `;
+  });
+
+  const totalRecovery = (current/start)*100;
+  const totalLoss = 100-totalRecovery;
+
+  setResult("visualPathwayResult",
+    `<strong>Starting DNA:</strong> ${start.toFixed(4)} ng<br>` +
+    `<strong>Final estimated DNA:</strong> ${current.toFixed(4)} ng<br>` +
+    `<strong>Total modeled recovery:</strong> ${totalRecovery.toFixed(2)}%<br>` +
+    `<strong>Total modeled loss:</strong> ${totalLoss.toFixed(2)}%<br><br>` +
+    `<table class="summary-table">
+      <thead><tr><th>Step</th><th>Applied loss</th><th>DNA before</th><th>DNA after</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`
+  );
+}
+
+function clearVisualPathway(){
+  visualPathwayEvents = [];
+  const start = document.getElementById("builderInitialDNA");
+  if (start) start.value = "";
+  renderPathwayList();
+  setEmptyResult("visualPathwayResult","Add at least one event, then click Calculate Pathway.");
+}
+
+document.addEventListener("DOMContentLoaded", initPathwayBuilder);
 
 </script>
 </body>
