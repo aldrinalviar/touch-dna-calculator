@@ -23,45 +23,58 @@
   <h1>Touch DNA Calculator</h1>
   <p class="subtitle">Research calculator for DNA retention, transfer, and recovery pathways.</p>
 
+
+  <section class="card">
+    <h2>Scientific Publication</h2>
+    <p>View the published article associated with this research project.</p>
+    <a href="https://www.sciencedirect.com/science/article/pii/S2589871X26000331#article"
+       target="_blank"
+       rel="noopener noreferrer">
+      <button type="button">View Published Article</button>
+    </a>
+  </section>
+
   <section class="card">
     <h2>DNA Retention on Surface</h2>
     <div class="grid">
-      <div><label for="deposited">DNA deposited (ng)</label><input id="deposited" type="number" step="any" value="9"></div>
-      <div><label for="recovered">Mean DNA recovered (ng)</label><input id="recovered" type="number" step="any" value="1.37"></div>
-      <div><label for="swab">Swab retention (%)</label><input id="swab" type="number" step="any" value="25"></div>
-      <div><label for="extract">Extraction loss (%)</label><input id="extract" type="number" step="any" value="49"></div>
+      <div><label for="deposited">DNA deposited (ng)</label><input id="deposited" type="number" step="any" placeholder="Enter DNA amount"></div>
+      <div><label for="recovered">Mean DNA recovered (ng)</label><input id="recovered" type="number" step="any" placeholder="Enter recovered DNA"></div>
+      <div><label for="swab">Swab retention (%)</label><input id="swab" type="number" step="any" placeholder="Enter swab retention"></div>
+      <div><label for="extract">Extraction loss (%)</label><input id="extract" type="number" step="any" placeholder="Enter extraction loss"></div>
     </div>
     <button onclick="calcRetention()">Calculate</button>
-    <div class="result" id="retentionResult">Enter values and click Calculate.</div>
+    <button onclick="clearRetention()">Clear</button>
+    <div class="result" id="retentionResult">Results will appear here after you click Calculate.</div>
   </section>
 
   <section class="card">
     <h2>Transfer Pathway Adjustment</h2>
     <div class="grid">
-      <div><label for="initial">DNA deposited (ng)</label><input id="initial" type="number" step="any" value="9"></div>
-      <div><label for="meanRecovered">Mean DNA recovered (ng)</label><input id="meanRecovered" type="number" step="any" value="1.09"></div>
-      <div><label for="surfaceRetention">Surface retention (%)</label><input id="surfaceRetention" type="number" step="any" value="7"></div>
-      <div><label for="pathSwab">Swab retention (%)</label><input id="pathSwab" type="number" step="any" value="25"></div>
-      <div><label for="pathExtract">Extraction loss (%)</label><input id="pathExtract" type="number" step="any" value="49"></div>
+      <div><label for="initial">DNA deposited (ng)</label><input id="initial" type="number" step="any" placeholder="Enter DNA amount"></div>
+      <div><label for="meanRecovered">Mean DNA recovered (ng)</label><input id="meanRecovered" type="number" step="any" placeholder="Enter recovered DNA"></div>
+      <div><label for="surfaceRetention">Surface retention (%)</label><input id="surfaceRetention" type="number" step="any" placeholder="Enter or select a Bullpen value"></div>
+      <div><label for="pathSwab">Swab retention (%)</label><input id="pathSwab" type="number" step="any" placeholder="Enter swab retention"></div>
+      <div><label for="pathExtract">Extraction loss (%)</label><input id="pathExtract" type="number" step="any" placeholder="Enter extraction loss"></div>
     </div>
     <button onclick="calcPathway()">Adjust for Loss</button>
-    <div class="result" id="pathwayResult">Enter values and click Adjust for Loss.</div>
+    <button onclick="clearPathway()">Clear</button>
+    <div class="result" id="pathwayResult">Results will appear here after you click Adjust for Loss.</div>
   </section>
 
   <section class="card">
     <h2>Bullpen of Events — Current Workbook Values</h2>
     <table>
-      <thead><tr><th>Surface</th><th>Retention</th></tr></thead>
+      <thead><tr><th>Surface</th><th>Retention</th><th>Apply</th></tr></thead>
       <tbody>
-        <tr><td>Drug baggie</td><td>1%</td></tr>
-        <tr><td>Brass door plate</td><td>6%</td></tr>
-        <tr><td>Knife handle</td><td>13%</td></tr>
-        <tr><td>Subway pole</td><td>16%</td></tr>
-        <tr><td>Steering wheel</td><td>18%</td></tr>
-        <tr><td>Glass slide</td><td>16%</td></tr>
-        <tr><td>Gelatine-based</td><td>15%</td></tr>
-        <tr><td>PVA-PDMS</td><td>15%</td></tr>
-        <tr><td>Lorica leather</td><td>6%</td></tr>
+        <tr><td>Drug baggie</td><td>1%</td><td><button type="button" onclick="useSurfaceValue(1, 'Drug baggie')">Use this value</button></td></tr>
+        <tr><td>Brass door plate</td><td>6%</td><td><button type="button" onclick="useSurfaceValue(6, 'Brass door plate')">Use this value</button></td></tr>
+        <tr><td>Knife handle</td><td>13%</td><td><button type="button" onclick="useSurfaceValue(13, 'Knife handle')">Use this value</button></td></tr>
+        <tr><td>Subway pole</td><td>16%</td><td><button type="button" onclick="useSurfaceValue(16, 'Subway pole')">Use this value</button></td></tr>
+        <tr><td>Steering wheel</td><td>18%</td><td><button type="button" onclick="useSurfaceValue(18, 'Steering wheel')">Use this value</button></td></tr>
+        <tr><td>Glass slide</td><td>16%</td><td><button type="button" onclick="useSurfaceValue(16, 'Glass slide')">Use this value</button></td></tr>
+        <tr><td>Gelatine-based</td><td>15%</td><td><button type="button" onclick="useSurfaceValue(15, 'Gelatine-based')">Use this value</button></td></tr>
+        <tr><td>PVA-PDMS</td><td>15%</td><td><button type="button" onclick="useSurfaceValue(15, 'PVA-PDMS')">Use this value</button></td></tr>
+        <tr><td>Lorica leather</td><td>6%</td><td><button type="button" onclick="useSurfaceValue(6, 'Lorica leather')">Use this value</button></td></tr>
       </tbody>
     </table>
     <p class="note">Prototype based on the values in the uploaded Excel workbook. Validate all equations and research assumptions before formal scientific release.</p>
@@ -70,13 +83,18 @@
 <script>
 function fmt(x){ return Number.isFinite(x) ? x.toFixed(2) : "—"; }
 
-function calcRetention(){
-  const deposited = parseFloat(document.getElementById("deposited").value);
-  const recovered = parseFloat(document.getElementById("recovered").value);
-  const swab = parseFloat(document.getElementById("swab").value) / 100;
-  const extract = parseFloat(document.getElementById("extract").value) / 100;
+function getNumber(id){
+  const raw = document.getElementById(id).value.trim();
+  return raw === "" ? NaN : parseFloat(raw);
+}
 
-  if (!(deposited > 0) || recovered < 0) {
+function calcRetention(){
+  const deposited = getNumber("deposited");
+  const recovered = getNumber("recovered");
+  const swab = getNumber("swab") / 100;
+  const extract = getNumber("extract") / 100;
+
+  if (!Number.isFinite(deposited) || !Number.isFinite(recovered) || !Number.isFinite(swab) || !Number.isFinite(extract) || !(deposited > 0) || recovered < 0) {
     document.getElementById("retentionResult").textContent = "Please enter valid values.";
     return;
   }
@@ -93,16 +111,16 @@ function calcRetention(){
 }
 
 function calcPathway(){
-  const initial = parseFloat(document.getElementById("initial").value);
-  const recovered = parseFloat(document.getElementById("meanRecovered").value);
-  const surface = parseFloat(document.getElementById("surfaceRetention").value);
-  const swab = parseFloat(document.getElementById("pathSwab").value);
-  const extract = parseFloat(document.getElementById("pathExtract").value);
+  const initial = getNumber("initial");
+  const recovered = getNumber("meanRecovered");
+  const surface = getNumber("surfaceRetention");
+  const swab = getNumber("pathSwab");
+  const extract = getNumber("pathExtract");
 
   const totalLoss = swab + extract + surface;
   const totalRecovery = 100 - totalLoss;
 
-  if (!(initial > 0) || recovered < 0 || totalRecovery <= 0) {
+  if (!Number.isFinite(initial) || !Number.isFinite(recovered) || !Number.isFinite(surface) || !Number.isFinite(swab) || !Number.isFinite(extract) || !(initial > 0) || recovered < 0 || totalRecovery <= 0) {
     document.getElementById("pathwayResult").textContent = "Please enter valid values. Total recovery must be greater than 0%.";
     return;
   }
@@ -116,6 +134,24 @@ function calcPathway(){
     `<strong>DNA adjusted for loss:</strong> ${fmt(adjusted)} ng<br>` +
     `<strong>Adjusted amount as % of deposited DNA:</strong> ${fmt(pctOfInitial)}%`;
 }
+
+function clearRetention(){
+  ["deposited","recovered","swab","extract"].forEach(id => document.getElementById(id).value = "");
+  document.getElementById("retentionResult").textContent =
+    "Results will appear here after you click Calculate.";
+}
+
+function clearPathway(){
+  ["initial","meanRecovered","surfaceRetention","pathSwab","pathExtract"].forEach(id => document.getElementById(id).value = "");
+  document.getElementById("pathwayResult").textContent =
+    "Results will appear here after you click Adjust for Loss.";
+}
+
+function useSurfaceValue(value, label){
+  document.getElementById("surfaceRetention").value = value;
+  document.getElementById("surfaceRetention").focus();
+}
+
 </script>
 </body>
 </html>
