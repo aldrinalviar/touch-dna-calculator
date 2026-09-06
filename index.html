@@ -86,8 +86,7 @@
   <section class="card">
     <h2>Visual Transfer Pathway Builder</h2>
     <p class="note">
-      Build a sequence of DNA-transfer or recovery events. Each event applies the selected percentage
-      to the DNA amount remaining from the previous step. Use this as an exploratory model only.
+      Build a sequence of DNA transfer, retention, recovery, or loss events. The calculator now applies each percentage according to its parameter type: retention/transfer/recovery multiply by the stated fraction, while loss subtracts the stated fraction from the amount entering that step. Use this as an exploratory model only.
     </p>
 
     <div class="grid">
@@ -252,21 +251,25 @@ function useLabValue(fieldId, value, label){
 }
 
 
+
 const pathwayCatalog = [
-  {name:"Drug baggie surface retention", percent:1, source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
-  {name:"Brass door plate surface retention", percent:6, source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
-  {name:"Steering wheel surface retention", percent:18, source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
-  {name:"Glass slide surface retention", percent:16, source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
-  {name:"Gelatine-based polymer surface retention", percent:15, source:"Aldrin John N. Alviar (Graduate Thesis)"},
-  {name:"PVA-PDMS surface retention", percent:15, source:"Aldrin John N. Alviar (Graduate Thesis)"},
-  {name:"Subway pole surface retention", percent:16, source:"Aldrin John N. Alviar (Graduate Thesis)"},
-  {name:"Knife handle surface retention", percent:13, source:"Aldrin John N. Alviar (Graduate Thesis)"},
-  {name:"Lorica leather surface retention", percent:6, source:"Alviar, Wickenheiser & Hall (2026) / Graduate Thesis"},
-  {name:"Knife sheath snap button surface retention", percent:11, source:"Alviar, Wickenheiser & Hall (2026)"},
-  {name:"Swab retention", percent:25, source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
-  {name:"DNA IQ extraction loss", percent:49, source:"Alviar, Wickenheiser & Hall (2026) / Graduate Thesis"},
-  {name:"Organic DNA extraction loss", percent:33, source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
-  {name:"Custom event", percent:null, source:"User-defined"}
+  {name:"Drug baggie surface retention", percent:1, type:"retention", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
+  {name:"Brass door plate surface retention", percent:6, type:"retention", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
+  {name:"Steering wheel surface retention", percent:18, type:"retention", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
+  {name:"Glass slide surface retention", percent:16, type:"retention", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
+  {name:"Gelatine-based polymer surface retention", percent:15, type:"retention", source:"Aldrin John N. Alviar (Graduate Thesis)"},
+  {name:"PVA-PDMS surface retention", percent:15, type:"retention", source:"Aldrin John N. Alviar (Graduate Thesis)"},
+  {name:"Subway pole surface retention", percent:16, type:"retention", source:"Aldrin John N. Alviar (Graduate Thesis)"},
+  {name:"Knife handle surface retention", percent:13, type:"retention", source:"Aldrin John N. Alviar (Graduate Thesis)"},
+  {name:"Lorica leather surface retention", percent:6, type:"retention", source:"Alviar, Wickenheiser & Hall (2026) / Graduate Thesis"},
+  {name:"Knife sheath snap button surface retention", percent:11, type:"retention", source:"Alviar, Wickenheiser & Hall (2026)"},
+  {name:"Swab retention", percent:25, type:"loss", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
+  {name:"DNA IQ extraction loss", percent:49, type:"loss", source:"Alviar, Wickenheiser & Hall (2026) / Graduate Thesis"},
+  {name:"Organic DNA extraction loss", percent:33, type:"loss", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
+  {name:"Custom retention", percent:null, type:"retention", source:"User-defined"},
+  {name:"Custom transfer", percent:null, type:"transfer", source:"User-defined"},
+  {name:"Custom recovery", percent:null, type:"recovery", source:"User-defined"},
+  {name:"Custom loss", percent:null, type:"loss", source:"User-defined"}
 ];
 
 let visualPathwayEvents = [];
@@ -274,9 +277,21 @@ let visualPathwayEvents = [];
 function initPathwayBuilder(){
   const select = document.getElementById("eventSelect");
   if (!select) return;
-  select.innerHTML = pathwayCatalog.map((e, i) => `<option value="${i}">${e.name}</option>`).join("");
+  select.innerHTML = pathwayCatalog.map((e, i) =>
+    `<option value="${i}">${e.name}</option>`
+  ).join("");
   select.addEventListener("change", updateEventSelection);
   updateEventSelection();
+}
+
+function typeLabel(type){
+  const labels = {
+    retention:"Retention",
+    transfer:"Transfer",
+    recovery:"Recovery",
+    loss:"Loss"
+  };
+  return labels[type] || type;
 }
 
 function updateEventSelection(){
@@ -285,7 +300,7 @@ function updateEventSelection(){
   const pct = document.getElementById("eventPercent");
   const note = document.getElementById("eventSourceNote");
   pct.value = item.percent === null ? "" : item.percent;
-  note.textContent = `Source: ${item.source}`;
+  note.textContent = `Type: ${typeLabel(item.type)} | Source: ${item.source}`;
 }
 
 function addPathwayEvent(){
@@ -301,6 +316,7 @@ function addPathwayEvent(){
   visualPathwayEvents.push({
     name: item.name,
     percent: pct,
+    type: item.type,
     source: item.source
   });
 
@@ -327,10 +343,50 @@ function renderPathwayList(){
         <span class="source-tag">${e.source}</span>
       </div>
       <div>${e.percent.toFixed(2)}%</div>
-      <div>loss</div>
+      <div>${typeLabel(e.type)}</div>
       <div><button type="button" class="danger-button small-button" onclick="removePathwayEvent(${i})">Remove</button></div>
     </div>
   `).join("");
+}
+
+function applyEvent(before, event){
+  const p = event.percent / 100;
+
+  if (event.type === "loss"){
+    return before * (1 - p);
+  }
+
+  if (event.type === "retention" || event.type === "transfer" || event.type === "recovery"){
+    return before * p;
+  }
+
+  return before;
+}
+
+function operationText(event){
+  if (event.type === "loss"){
+    return `${event.percent.toFixed(2)}% lost`;
+  }
+  if (event.type === "retention"){
+    return `${event.percent.toFixed(2)}% retained`;
+  }
+  if (event.type === "transfer"){
+    return `${event.percent.toFixed(2)}% transferred`;
+  }
+  if (event.type === "recovery"){
+    return `${event.percent.toFixed(2)}% recovered`;
+  }
+  return `${event.percent.toFixed(2)}%`;
+}
+
+function equationText(event){
+  const p = (event.percent/100).toFixed(4);
+
+  if (event.type === "loss"){
+    return `DNA after = DNA before × (1 − ${p})`;
+  }
+
+  return `DNA after = DNA before × ${p}`;
 }
 
 function calculateVisualPathway(){
@@ -351,28 +407,40 @@ function calculateVisualPathway(){
 
   visualPathwayEvents.forEach((e, i) => {
     const before = current;
-    const retained = before * (1 - e.percent/100);
-    current = retained;
+    current = applyEvent(before, e);
+
     rows += `
       <tr>
         <td>${i+1}. ${e.name}</td>
-        <td>${e.percent.toFixed(2)}%</td>
+        <td>${typeLabel(e.type)}</td>
+        <td>${operationText(e)}</td>
         <td>${before.toFixed(4)} ng</td>
         <td>${current.toFixed(4)} ng</td>
+        <td>${equationText(e)}</td>
       </tr>
     `;
   });
 
-  const totalRecovery = (current/start)*100;
-  const totalLoss = 100-totalRecovery;
+  const totalFraction = current/start;
+  const totalRecovery = totalFraction*100;
+  const totalReduction = 100-totalRecovery;
 
   setResult("visualPathwayResult",
     `<strong>Starting DNA:</strong> ${start.toFixed(4)} ng<br>` +
     `<strong>Final estimated DNA:</strong> ${current.toFixed(4)} ng<br>` +
-    `<strong>Total modeled recovery:</strong> ${totalRecovery.toFixed(2)}%<br>` +
-    `<strong>Total modeled loss:</strong> ${totalLoss.toFixed(2)}%<br><br>` +
+    `<strong>Final amount as % of starting DNA:</strong> ${totalRecovery.toFixed(2)}%<br>` +
+    `<strong>Overall reduction from starting DNA:</strong> ${totalReduction.toFixed(2)}%<br><br>` +
     `<table class="summary-table">
-      <thead><tr><th>Step</th><th>Applied loss</th><th>DNA before</th><th>DNA after</th></tr></thead>
+      <thead>
+        <tr>
+          <th>Step</th>
+          <th>Type</th>
+          <th>Applied parameter</th>
+          <th>DNA before</th>
+          <th>DNA after</th>
+          <th>Equation</th>
+        </tr>
+      </thead>
       <tbody>${rows}</tbody>
     </table>`
   );
@@ -387,6 +455,7 @@ function clearVisualPathway(){
 }
 
 document.addEventListener("DOMContentLoaded", initPathwayBuilder);
+
 
 </script>
 </body>
