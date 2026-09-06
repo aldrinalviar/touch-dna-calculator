@@ -62,7 +62,116 @@
     <div class="result" id="pathwayResult">Results will appear here after you click Adjust for Loss.</div>
   </section>
 
+  
   <section class="card">
+    <h2>Methodology &amp; Equations</h2>
+    <p class="note">
+      The two spreadsheet-equivalent calculators below reproduce the mathematical structure of the
+      original Excel workbook. The Visual Transfer Pathway Builder is a separate sequential model
+      and should not be assumed to be mathematically equivalent to the spreadsheet adjustment.
+    </p>
+
+    <h3>1. DNA Retention on Surface</h3>
+    <div class="science-box">
+      <p><strong>Percent DNA recovery</strong></p>
+      <p><code>Recovery fraction = Mean DNA recovered ÷ DNA deposited</code></p>
+
+      <p><strong>Total DNA loss</strong></p>
+      <p><code>Total loss fraction = 1 − Recovery fraction</code></p>
+
+      <p><strong>Combined sampling loss</strong></p>
+      <p><code>Sampling loss fraction = Swab retention + Extraction loss</code></p>
+
+      <p><strong>Estimated surface retention</strong></p>
+      <p><code>Surface retention = Total loss − Combined sampling loss</code></p>
+    </div>
+
+    <h3>2. Transfer Pathway Adjustment — Spreadsheet-Equivalent Model</h3>
+    <div class="science-box">
+      <p><strong>Total modeled loss</strong></p>
+      <p><code>Total loss (%) = Surface retention (%) + Swab retention (%) + Extraction loss (%)</code></p>
+
+      <p><strong>Total modeled recovery</strong></p>
+      <p><code>Total recovery (%) = 100 − Total loss (%)</code></p>
+
+      <p><strong>DNA adjusted for loss</strong></p>
+      <p><code>Adjusted DNA (ng) = Mean DNA recovered ÷ (Total recovery ÷ 100)</code></p>
+
+      <p><strong>Adjusted amount relative to deposited DNA</strong></p>
+      <p><code>Adjusted DNA (%) = (Adjusted DNA ÷ DNA deposited) × 100</code></p>
+    </div>
+
+    <h3>3. Visual Transfer Pathway Builder — Sequential Model</h3>
+    <div class="science-box">
+      <p>
+        The pathway builder applies each event to the DNA amount remaining after the previous event.
+        It is therefore a sequential multiplicative model.
+      </p>
+
+      <p><strong>Surface retention or sampling loss</strong></p>
+      <p><code>DNA after = DNA before × (1 − loss fraction)</code></p>
+
+      <p><strong>Transfer or recovery event</strong></p>
+      <p><code>DNA after = DNA before × event fraction</code></p>
+
+      <p class="note">
+        Because the spreadsheet adjustment adds loss percentages before back-calculating, while the
+        pathway builder applies percentages sequentially, the two methods can produce different
+        results from the same nominal percentages. They answer different modeling questions.
+      </p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Validation Against Original Excel Workbook</h2>
+    <p class="note">
+      These fixed test cases are regression checks based on the formulas and example values in the
+      original spreadsheet. Click the button to verify that the current web calculation engine
+      reproduces the expected numerical results.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Test</th>
+          <th>Inputs</th>
+          <th>Expected result</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Surface retention</td>
+          <td>9 ng deposited; 1.37 ng recovered; 25% swab; 49% extraction</td>
+          <td>10.7778% surface retention</td>
+        </tr>
+        <tr>
+          <td>Pathway adjustment — Domesticated hand</td>
+          <td>9 ng deposited; 1.09 ng recovered; 7% surface; 25% swab; 49% extraction</td>
+          <td>5.736842 ng adjusted</td>
+        </tr>
+        <tr>
+          <td>Pathway adjustment — Snap button</td>
+          <td>9 ng deposited; 0.60 ng recovered; 11% surface; 25% swab; 49% extraction</td>
+          <td>4.000000 ng adjusted</td>
+        </tr>
+        <tr>
+          <td>Sequential builder regression test</td>
+          <td>9 ng → 11% surface retention → 25% sampling loss → 49% sampling loss</td>
+          <td>3.063825 ng final</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="button-row">
+      <button type="button" id="runValidationBtn">Run Validation Tests</button>
+    </div>
+
+    <div class="result empty" id="validationResult">
+      Validation results will appear here.
+    </div>
+  </section>
+
+<section class="card">
     <h2>Bullpen of Events — Current Workbook Values</h2>
     <table>
       <thead><tr><th>Surface</th><th>Retention</th><th>Source</th><th>Apply</th></tr></thead>
@@ -477,16 +586,97 @@ function clearVisualPathway(){
   setEmptyResult("visualPathwayResult","Add at least one event, then click Calculate Pathway.");
 }
 
+
+function nearlyEqual(actual, expected, tolerance = 0.0001){
+  return Math.abs(actual - expected) <= tolerance;
+}
+
+function runValidationTests(){
+  const results = [];
+
+  // Test 1: DNA Retention on Surface
+  const deposited1 = 9;
+  const recovered1 = 1.37;
+  const swab1 = 25 / 100;
+  const extraction1 = 49 / 100;
+  const recoveryFraction1 = recovered1 / deposited1;
+  const totalLoss1 = 1 - recoveryFraction1;
+  const surfaceRetention1 = (totalLoss1 - swab1 - extraction1) * 100;
+  results.push({
+    name: "Surface retention",
+    actual: surfaceRetention1,
+    expected: 10.7777777778,
+    unit: "%"
+  });
+
+  // Test 2: Spreadsheet pathway adjustment — Domesticated hand
+  const totalRecovery2 = 100 - (7 + 25 + 49);
+  const adjusted2 = 1.09 / (totalRecovery2 / 100);
+  results.push({
+    name: "Domesticated hand adjustment",
+    actual: adjusted2,
+    expected: 5.7368421053,
+    unit: " ng"
+  });
+
+  // Test 3: Spreadsheet pathway adjustment — Snap button
+  const totalRecovery3 = 100 - (11 + 25 + 49);
+  const adjusted3 = 0.60 / (totalRecovery3 / 100);
+  results.push({
+    name: "Snap button adjustment",
+    actual: adjusted3,
+    expected: 4.0,
+    unit: " ng"
+  });
+
+  // Test 4: Sequential pathway builder regression
+  let sequential = 9;
+  sequential = sequential * (1 - 0.11);
+  sequential = sequential * (1 - 0.25);
+  sequential = sequential * (1 - 0.49);
+  results.push({
+    name: "Sequential builder",
+    actual: sequential,
+    expected: 3.063825,
+    unit: " ng"
+  });
+
+  const allPass = results.every(r => nearlyEqual(r.actual, r.expected));
+
+  const rows = results.map(r => {
+    const pass = nearlyEqual(r.actual, r.expected);
+    return `
+      <tr>
+        <td>${r.name}</td>
+        <td>${r.expected.toFixed(6)}${r.unit}</td>
+        <td>${r.actual.toFixed(6)}${r.unit}</td>
+        <td><strong>${pass ? "PASS" : "FAIL"}</strong></td>
+      </tr>
+    `;
+  }).join("");
+
+  setResult(
+    "validationResult",
+    `<strong>${allPass ? "All validation tests passed." : "One or more validation tests failed."}</strong><br><br>` +
+    `<table>
+      <thead><tr><th>Test</th><th>Expected</th><th>Calculated</th><th>Status</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`
+  );
+}
+
 document.addEventListener("DOMContentLoaded", function(){
   initPathwayBuilder();
 
   const addBtn = document.getElementById("addPathwayEventBtn");
   const calcBtn = document.getElementById("calculatePathwayBtn");
   const clearBtn = document.getElementById("clearPathwayBuilderBtn");
+  const validationBtn = document.getElementById("runValidationBtn");
 
   if (addBtn) addBtn.addEventListener("click", addPathwayEvent);
   if (calcBtn) calcBtn.addEventListener("click", calculateVisualPathway);
   if (clearBtn) clearBtn.addEventListener("click", clearVisualPathway);
+  if (validationBtn) validationBtn.addEventListener("click", runValidationTests);
 });
 
 
