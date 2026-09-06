@@ -188,30 +188,766 @@
       }
     }
 
+  
+    :root {
+      --ink: #172033;
+      --muted: #667085;
+      --line: #dfe4ec;
+      --soft: #f7f9fc;
+      --panel: #ffffff;
+      --brand: #174c67;
+      --brand-dark: #10384c;
+      --brand-soft: #eaf3f7;
+      --accent: #2f6f78;
+      --danger: #9b2c2c;
+      --shadow: 0 10px 30px rgba(24, 39, 75, 0.07);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      max-width: none;
+      margin: 0;
+      padding: 0;
+      background: #f4f7fa;
+      color: var(--ink);
+      line-height: 1.55;
+    }
+
+    main,
+    .page-shell {
+      width: min(1160px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #123e55 0%, #1e6075 100%);
+      color: white;
+      padding: 48px 0 38px;
+    }
+
+    .hero-inner {
+      width: min(1160px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      font-size: .77rem;
+      font-weight: 800;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      opacity: .78;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      line-height: 1.05;
+      letter-spacing: -.035em;
+    }
+
+    .hero .subtitle {
+      max-width: 760px;
+      margin: 14px 0 0;
+      color: rgba(255,255,255,.86);
+      font-size: 1.04rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.18);
+      color: white;
+      font-size: .82rem;
+      font-weight: 700;
+    }
+
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .top-nav-inner {
+      width: min(1160px, calc(100% - 36px));
+      margin: 0 auto;
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      padding: 8px 0;
+    }
+
+    .top-nav a {
+      flex: 0 0 auto;
+      text-decoration: none;
+      color: #3f4b5f;
+      font-size: .88rem;
+      font-weight: 700;
+      padding: 8px 11px;
+      border-radius: 8px;
+    }
+
+    .top-nav a:hover,
+    .top-nav a:focus {
+      background: var(--brand-soft);
+      color: var(--brand-dark);
+      outline: none;
+    }
+
+    main {
+      padding: 22px 0 48px;
+    }
+
+    section[id] {
+      scroll-margin-top: 76px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 26px;
+      margin: 18px 0;
+      box-shadow: var(--shadow);
+      overflow: visible;
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 1.35rem;
+      letter-spacing: -.015em;
+    }
+
+    .card h3 {
+      margin: 24px 0 10px;
+      color: #344054;
+    }
+
+    .section-intro {
+      margin: 0 0 20px;
+      color: var(--muted);
+      max-width: 860px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    #pathway .grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid > div {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 46px;
+      margin: 0 0 7px;
+      font-size: .9rem;
+      font-weight: 750;
+      color: #344054;
+      line-height: 1.25;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 45px;
+      padding: 10px 12px;
+      border: 1px solid #cfd6e2;
+      border-radius: 9px;
+      background: white;
+      color: var(--ink);
+      font: inherit;
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: #5c8797;
+      box-shadow: 0 0 0 3px rgba(32, 101, 122, .12);
+    }
+
+    input::placeholder {
+      color: #98a2b3;
+    }
+
+    .button-row,
+    .builder-actions,
+    .export-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 18px;
+    }
+
+    button,
+    .link-button {
+      appearance: none;
+      min-height: 42px;
+      margin: 0;
+      padding: 10px 15px;
+      border: 1px solid transparent;
+      border-radius: 9px;
+      background: var(--brand);
+      color: white;
+      cursor: pointer;
+      font: inherit;
+      font-size: .9rem;
+      font-weight: 750;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .08s ease, background .15s ease, border-color .15s ease;
+    }
+
+    button:hover,
+    .link-button:hover {
+      background: var(--brand-dark);
+    }
+
+    button:active,
+    .link-button:active {
+      transform: translateY(1px);
+    }
+
+    .secondary-button,
+    button.secondary-button {
+      background: white;
+      color: #344054;
+      border-color: #cfd6e2;
+    }
+
+    .secondary-button:hover,
+    button.secondary-button:hover {
+      background: #f6f8fb;
+      color: #1f2937;
+    }
+
+    .danger-button {
+      background: white;
+      color: var(--danger);
+      border-color: #e4b9b9;
+    }
+
+    .danger-button:hover {
+      background: #fff3f3;
+      color: #7a1f1f;
+    }
+
+    .small-button {
+      min-height: 34px;
+      padding: 6px 10px;
+      font-size: .8rem;
+    }
+
+    .result {
+      margin-top: 18px;
+      padding: 0;
+      background: #fbfcfe;
+      border: 1px solid #e0e6ee;
+      border-radius: 12px;
+      line-height: 1.55;
+      overflow: hidden;
+    }
+
+    .result.empty {
+      padding: 16px 18px;
+      color: var(--muted);
+    }
+
+    .result-hero {
+      padding: 18px 20px;
+      background: var(--brand-soft);
+      border-bottom: 1px solid #d6e5eb;
+    }
+
+    .result-hero span {
+      display: block;
+      color: #50606f;
+      font-size: .82rem;
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .result-hero strong {
+      display: block;
+      margin-top: 3px;
+      color: var(--brand-dark);
+      font-size: clamp(1.65rem, 4vw, 2.35rem);
+      line-height: 1.1;
+      letter-spacing: -.025em;
+    }
+
+    .result-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 0;
+      padding: 6px 20px 16px;
+    }
+
+    .result-detail {
+      padding: 11px 16px 4px 0;
+    }
+
+    .result-detail span {
+      display: block;
+      color: var(--muted);
+      font-size: .79rem;
+    }
+
+    .result-detail strong {
+      display: block;
+      margin-top: 2px;
+      font-size: 1rem;
+    }
+
+    .science-box {
+      background: #fbfcfe;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 18px;
+      margin-top: 12px;
+    }
+
+    .science-box code {
+      display: inline-block;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+      padding: 5px 7px;
+      border-radius: 6px;
+      background: #eef3f7;
+      color: #27364a;
+    }
+
+    .note {
+      font-size: .9rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .builder-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(180px, .7fr) auto;
+      gap: 12px;
+      align-items: end;
+      margin: 16px 0 8px;
+    }
+
+    .builder-row > div {
+      min-width: 0;
+    }
+
+    .builder-row label {
+      min-height: auto;
+    }
+
+    .pathway-list {
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fcfdff;
+    }
+
+    .pathway-step {
+      display: grid;
+      grid-template-columns: 38px minmax(230px, 1fr) 90px 150px auto;
+      gap: 12px;
+      padding: 12px 14px;
+      border-bottom: 1px solid #e7ebf0;
+      align-items: center;
+    }
+
+    .pathway-step:last-child {
+      border-bottom: 0;
+    }
+
+    .step-num {
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--brand-soft);
+      color: var(--brand-dark);
+      font-weight: 800;
+      font-size: .82rem;
+    }
+
+    .source-tag {
+      font-size: .79rem;
+      color: var(--muted);
+    }
+
+    .pathway-visual {
+      padding: 18px 20px 6px;
+    }
+
+    .pathway-node {
+      display: grid;
+      grid-template-columns: 54px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 14px 16px;
+      background: white;
+      border: 1px solid #dfe5ec;
+      border-radius: 12px;
+    }
+
+    .pathway-node.start-node,
+    .pathway-node.end-node {
+      background: var(--brand-soft);
+      border-color: #cfe0e7;
+    }
+
+    .pathway-node-index {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #eef2f6;
+      color: #344054;
+      font-weight: 800;
+      font-size: .82rem;
+    }
+
+    .start-node .pathway-node-index,
+    .end-node .pathway-node-index {
+      background: white;
+      color: var(--brand-dark);
+    }
+
+    .pathway-node-title {
+      font-weight: 800;
+      color: #253248;
+    }
+
+    .pathway-node-meta {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    .pathway-node-value {
+      text-align: right;
+      white-space: nowrap;
+      font-weight: 800;
+      color: var(--brand-dark);
+    }
+
+    .pathway-arrow {
+      width: 2px;
+      height: 25px;
+      margin: 3px auto;
+      background: #b8c4ce;
+      position: relative;
+    }
+
+    .pathway-arrow::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 50%;
+      width: 7px;
+      height: 7px;
+      border-right: 2px solid #8fa0ad;
+      border-bottom: 2px solid #8fa0ad;
+      transform: translateX(-50%) rotate(45deg);
+    }
+
+    .result-table-wrap,
+    .table-scroll {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: .9rem;
+    }
+
+    th {
+      padding: 10px 11px;
+      border-bottom: 2px solid #dfe5ec;
+      text-align: left;
+      color: #475467;
+      background: #f8fafc;
+      font-size: .78rem;
+      letter-spacing: .025em;
+      text-transform: uppercase;
+    }
+
+    td {
+      padding: 11px;
+      border-bottom: 1px solid #edf0f4;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    tbody tr:hover {
+      background: #fafcfd;
+    }
+
+    .summary-table {
+      min-width: 880px;
+      margin: 0;
+    }
+
+    .source-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 7px;
+      margin: 2px 2px 2px 0;
+      border-radius: 999px;
+      background: #eef5f7;
+      color: #24556a;
+      font-size: .78rem;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid #d5e5eb;
+    }
+
+    .source-badge:hover {
+      background: #deedf2;
+    }
+
+    .publication-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    #publications .science-box {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #publications .science-box .link-button {
+      margin-top: auto;
+      align-self: flex-start;
+    }
+
+    .info-tip {
+      flex: 0 0 auto;
+    }
+
+    .history-card {
+      background: #fbfcfe;
+      border-color: var(--line);
+      border-radius: 12px;
+    }
+
+    .footer {
+      width: min(1160px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 0 0 34px;
+      color: #7a8492;
+      font-size: .82rem;
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      .grid,
+      #pathway .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .publication-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pathway-step {
+        grid-template-columns: 38px 1fr auto;
+      }
+
+      .pathway-step > div:nth-child(4) {
+        display: none;
+      }
+    }
+
+    @media (max-width: 680px) {
+      main,
+      .page-shell,
+      .hero-inner,
+      .top-nav-inner,
+      .footer {
+        width: min(100% - 22px, 1160px);
+      }
+
+      .hero {
+        padding: 34px 0 28px;
+      }
+
+      .card {
+        padding: 18px;
+        border-radius: 13px;
+      }
+
+      .grid,
+      #pathway .grid,
+      .builder-row {
+        grid-template-columns: 1fr;
+      }
+
+      label {
+        min-height: auto;
+      }
+
+      .builder-row {
+        align-items: stretch;
+      }
+
+      .builder-row button {
+        width: 100%;
+      }
+
+      .pathway-step {
+        grid-template-columns: 34px 1fr;
+      }
+
+      .pathway-step > div:nth-child(3),
+      .pathway-step > div:nth-child(4) {
+        display: block;
+        grid-column: 2;
+      }
+
+      .pathway-step > div:last-child {
+        grid-column: 2;
+      }
+
+      .pathway-node {
+        grid-template-columns: 42px 1fr;
+      }
+
+      .pathway-node-value {
+        grid-column: 2;
+        text-align: left;
+      }
+
+      .button-row button,
+      .export-row button {
+        flex: 1 1 160px;
+      }
+    }
+
+    @media print {
+      .hero,
+      .top-nav,
+      main > section:not(#calculationHistorySection),
+      .footer {
+        display: none !important;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      #calculationHistorySection {
+        display: block !important;
+        box-shadow: none;
+        border: 0;
+        margin: 0;
+        padding: 0;
+      }
+    }
+
   </style>
 </head>
 <body>
-  <h1>Touch DNA Calculator</h1>
-  <p class="subtitle">
-    Research calculator for DNA retention, transfer, and recovery pathways.<br>
-    <span class="note">Version 0.1.5 — Research Prototype</span>
-  </p>
+  <header class="hero" id="top">
+    <div class="hero-inner">
+      <p class="eyebrow">Forensic DNA Research Tool</p>
+      <h1>Touch DNA Calculator</h1>
+      <p class="subtitle">
+        Explore DNA retention, recovery loss, and sequential touch-DNA pathways using transparent,
+        research-linked parameters.
+      </p>
+      <div class="hero-meta">
+        <span class="hero-badge">Version 0.2.0</span>
+        <span class="hero-badge">Research Prototype</span>
+      </div>
+    </div>
+  </header>
 
-  <section class="card">
+  <nav class="top-nav" aria-label="Calculator sections">
+    <div class="top-nav-inner">
+      <a href="#retention">Retention Calculator</a>
+      <a href="#pathway">Pathway Adjustment</a>
+      <a href="#builder">Pathway Builder</a>
+      <a href="#bullpen">Bullpen</a>
+      <a href="#methodology">Methodology</a>
+      <a href="#publications">Publications</a>
+      <a href="#calculationHistorySection">History &amp; Export</a>
+    </div>
+  </nav>
+
+  <main>
+
+  <section class="card" id="retention">
     <h2>DNA Retention on Surface</h2>
+    <p class="section-intro">Estimate the proportion of deposited DNA attributed to surface retention after accounting for observed recovery, swab retention, and DNA extraction loss.</p>
     <div class="grid">
       <div><label for="deposited">DNA deposited (ng) <span class="info-tip" tabindex="0" aria-label="Information">i<span class="tooltip-text">Starting DNA quantity placed on or associated with the tested surface. Must be greater than 0 ng.</span></span></label><input id="deposited" type="number" step="any" min="0" placeholder="Enter DNA amount"></div>
       <div><label for="recovered">Mean DNA recovered (ng) <span class="info-tip" tabindex="0" aria-label="Information">i<span class="tooltip-text">Measured mean DNA quantity recovered after the relevant sampling and extraction process. Must be 0 ng or greater.</span></span></label><input id="recovered" type="number" step="any" min="0" placeholder="Enter recovered DNA"></div>
       <div><label for="swab">Swab Retention (%) <span class="info-tip" tabindex="0" aria-label="Information">i<span class="tooltip-text">Percentage of DNA considered lost during the swabbing or sampling step. Enter a value from 0% to 100%.</span></span></label><input id="swab" type="number" step="any" min="0" max="100" placeholder="Enter swab retention"></div>
       <div><label for="extract">DNA Extraction Loss (%) <span class="info-tip" tabindex="0" aria-label="Information">i<span class="tooltip-text">Percentage of DNA considered lost during DNA extraction. Enter a value from 0% to 100%.</span></span></label><input id="extract" type="number" step="any" min="0" max="100" placeholder="Enter extraction loss"></div>
     </div>
-    <button onclick="calcRetention()">Calculate</button>
-    <button onclick="clearRetention()">Clear</button>
-    <div class="result" id="retentionResult">Results will appear here after you click Calculate.</div>
+    <div class="button-row">
+      <button onclick="calcRetention()">Calculate</button>
+      <button class="secondary-button" onclick="clearRetention()">Clear</button>
+    </div>
+    <div class="result empty" id="retentionResult">Results will appear here after you click Calculate.</div>
   </section>
 
-  <section class="card">
+  <section class="card" id="pathway">
     <h2>Transfer Pathway Adjustment</h2>
+    <p class="section-intro">Back-adjust a measured DNA quantity using the spreadsheet-equivalent loss model.</p>
     <div class="grid">
       <div><label for="initial">DNA deposited (ng) <span class="info-tip" tabindex="0" aria-label="Information">i<span class="tooltip-text">Starting DNA quantity used for the pathway-adjustment calculation. Must be greater than 0 ng.</span></span></label><input id="initial" type="number" step="any" min="0" placeholder="Enter DNA amount"></div>
       <div><label for="meanRecovered">Mean DNA recovered (ng) <span class="info-tip" tabindex="0" aria-label="Information">i<span class="tooltip-text">Observed mean recovered DNA quantity used for the adjustment. Must be 0 ng or greater.</span></span></label><input id="meanRecovered" type="number" step="any" min="0" placeholder="Enter recovered DNA"></div>
@@ -219,11 +955,13 @@
       <div><label for="pathSwab">Swab Retention (%) <span class="info-tip" tabindex="0" aria-label="Information">i<span class="tooltip-text">Percentage of DNA loss attributed to the swabbing or sampling step. Enter 0% to 100%.</span></span></label><input id="pathSwab" type="number" step="any" min="0" max="100" placeholder="Enter swab retention"></div>
       <div><label for="pathExtract">DNA Extraction Loss (%) <span class="info-tip" tabindex="0" aria-label="Information">i<span class="tooltip-text">Percentage of DNA loss attributed to the extraction process. Enter 0% to 100%.</span></span></label><input id="pathExtract" type="number" step="any" min="0" max="100" placeholder="Enter extraction loss"></div>
     </div>
-    <button onclick="calcPathway()">Adjust for Loss</button>
-    <button onclick="clearPathway()">Clear</button>
-    <div class="result" id="pathwayResult">Results will appear here after you click Adjust for Loss.</div>
+    <div class="button-row">
+      <button onclick="calcPathway()">Adjust for Loss</button>
+      <button class="secondary-button" onclick="clearPathway()">Clear</button>
+    </div>
+    <div class="result empty" id="pathwayResult">Results will appear here after you click Adjust for Loss.</div>
   </section>
-<section class="card">
+<section class="card" id="methodology">
     <h2>Methodology &amp; Equations</h2>
     <p class="note">
       The two spreadsheet-equivalent calculators below reproduce the mathematical structure of the
@@ -240,7 +978,7 @@
       <p><code>Total loss fraction = 1 − Recovery fraction</code></p>
 
       <p><strong>Combined sampling loss</strong></p>
-      <p><code>Sampling loss fraction = Swab retention + Extraction loss</code></p>
+      <p><code>Sampling loss fraction = Swab Retention + DNA Extraction Loss</code></p>
 
       <p><strong>Estimated surface retention</strong></p>
       <p><code>Surface retention = Total loss − Combined sampling loss</code></p>
@@ -281,7 +1019,7 @@
       </p>
     </div>
   </section>
-<section class="card">
+<section class="card" id="builder">
     <h2>Visual Transfer Pathway Builder</h2>
     <p class="note">
       Build a sequence of DNA transfer, recovery, surface-retention, or laboratory-loss events. Surface-retention values represent DNA that remains on the surface and is therefore treated as unavailable for downstream recovery. Swab retention and extraction loss are classified as sampling losses and are also subtracted from the amount entering that step. Transfer and recovery values multiply by the stated fraction. Use this as an exploratory model only.
@@ -326,29 +1064,30 @@
     </div>
   </section>
 
-  <section class="card">
-    <h2>Bullpen of Events — Current Workbook Values</h2>
-    <table>
+  <section class="card" id="bullpen">
+    <h2>Bullpen of Events</h2>
+    <p class="section-intro">Current surface-retention values available for direct use in the calculator. Each value remains linked to its research source.</p>
+    <div class="table-scroll"><table>
       <thead><tr><th>Surface</th><th>Retention</th><th>Source</th><th>Apply</th></tr></thead>
       <tbody>
-        <tr><td>Drug baggie</td><td>1%</td><td><a href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(1, 'Drug baggie')">Use this value</button></td></tr>
-        <tr><td>Brass door plate</td><td>6%</td><td><a href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(6, 'Brass door plate')">Use this value</button></td></tr>
-        <tr><td>Knife handle</td><td>13%</td><td><a href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(13, 'Knife handle')">Use this value</button></td></tr>
-        <tr><td>Knife sheath snap button</td><td>11%</td><td><a href="https://www.sciencedirect.com/science/article/pii/S2589871X26000331#article" target="_blank" rel="noopener noreferrer">Alviar, Wickenheiser &amp; Hall (2026)</a></td><td><button type="button" onclick="useSurfaceValue(11, 'Knife sheath snap button')">Use this value</button></td></tr>
-        <tr><td>Subway pole</td><td>16%</td><td><a href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(16, 'Subway pole')">Use this value</button></td></tr>
-        <tr><td>Steering wheel</td><td>18%</td><td><a href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(18, 'Steering wheel')">Use this value</button></td></tr>
-        <tr><td>Glass slide</td><td>16%</td><td><a href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(16, 'Glass slide')">Use this value</button></td></tr>
-        <tr><td>Gelatine-based</td><td>15%</td><td><a href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(15, 'Gelatine-based')">Use this value</button></td></tr>
-        <tr><td>PVA-PDMS</td><td>15%</td><td><a href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(15, 'PVA-PDMS')">Use this value</button></td></tr>
-        <tr><td>Lorica leather</td><td>6%</td><td><a href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a><br><a href="https://www.sciencedirect.com/science/article/pii/S2589871X26000331#article" target="_blank" rel="noopener noreferrer">Alviar et. al. (2026)</a></td><td><button type="button" onclick="useSurfaceValue(6, 'Lorica leather')">Use this value</button></td></tr>
+        <tr><td>Drug baggie</td><td>1%</td><td><a class="source-badge" href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(1, 'Drug baggie')">Use this value</button></td></tr>
+        <tr><td>Brass door plate</td><td>6%</td><td><a class="source-badge" href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(6, 'Brass door plate')">Use this value</button></td></tr>
+        <tr><td>Knife handle</td><td>13%</td><td><a class="source-badge" href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(13, 'Knife handle')">Use this value</button></td></tr>
+        <tr><td>Knife sheath snap button</td><td>11%</td><td><a class="source-badge" href="https://www.sciencedirect.com/science/article/pii/S2589871X26000331#article" target="_blank" rel="noopener noreferrer">Alviar, Wickenheiser &amp; Hall (2026)</a></td><td><button type="button" onclick="useSurfaceValue(11, 'Knife sheath snap button')">Use this value</button></td></tr>
+        <tr><td>Subway pole</td><td>16%</td><td><a class="source-badge" href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(16, 'Subway pole')">Use this value</button></td></tr>
+        <tr><td>Steering wheel</td><td>18%</td><td><a class="source-badge" href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(18, 'Steering wheel')">Use this value</button></td></tr>
+        <tr><td>Glass slide</td><td>16%</td><td><a class="source-badge" href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(16, 'Glass slide')">Use this value</button></td></tr>
+        <tr><td>Gelatine-based</td><td>15%</td><td><a class="source-badge" href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(15, 'Gelatine-based')">Use this value</button></td></tr>
+        <tr><td>PVA-PDMS</td><td>15%</td><td><a class="source-badge" href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(15, 'PVA-PDMS')">Use this value</button></td></tr>
+        <tr><td>Lorica leather</td><td>6%</td><td><a class="source-badge" href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a><br><a class="source-badge" href="https://www.sciencedirect.com/science/article/pii/S2589871X26000331#article" target="_blank" rel="noopener noreferrer">Alviar et. al. (2026)</a></td><td><button type="button" onclick="useSurfaceValue(6, 'Lorica leather')">Use this value</button></td></tr>
       </tbody>
-    </table>
+    </table></div>
     <p class="note">Prototype based on the values in the uploaded Excel workbook. Validate all equations and research assumptions before formal scientific release.</p>
   </section>
-<section class="card">
+<section class="card" id="publications">
     <h2>Scientific Publications &amp; Research Sources</h2>
-
-    <div class="science-box">
+    <div class="publication-grid">
+<div class="science-box">
       <p><strong>Touch DNA in forensic science: The use of laboratory-created eccrine fingerprints to quantify DNA loss</strong></p>
       <p class="note">
         Tang, J., Ostrander, J., Wickenheiser, R., &amp; Hall, A. (2020).
@@ -385,6 +1124,7 @@
          href="https://www.sciencedirect.com/science/article/pii/S2589871X26000331"
          target="_blank" rel="noopener noreferrer">View Alviar, Wickenheiser &amp; Hall (2026)</a>
     </div>
+    </div>
   </section>
 
 
@@ -406,7 +1146,7 @@
     </div>
   </section>
 
-  <section class="card">
+  <section class="card" id="disclaimer">
     <h2>Important Disclaimer</h2>
     <p class="note">
       This calculator is a research prototype and is not a validated forensic casework software package.
@@ -414,6 +1154,11 @@
       used as the sole basis for forensic conclusions, legal opinions, source attribution, or testimony.
     </p>
   </section>
+  </main>
+
+  <footer class="footer">
+    Touch DNA Calculator · Research prototype · Use experimental parameters only within their appropriate assumptions and context.
+  </footer>
 
 <script>
 function fmt(x){ return Number.isFinite(x) ? x.toFixed(2) : "—"; }
@@ -440,10 +1185,12 @@ function calcRetention(){
   const extract = getNumber("extract") / 100;
 
   if (!Number.isFinite(deposited) || !Number.isFinite(recovered) || !(deposited > 0) || recovered < 0) {
+    document.getElementById("retentionResult").classList.remove("empty");
     document.getElementById("retentionResult").textContent = "Enter a DNA deposited value greater than 0 and a recovered DNA value of 0 or greater.";
     return;
   }
   if (!isPercent(swab * 100) || !isPercent(extract * 100)) {
+    document.getElementById("retentionResult").classList.remove("empty");
     document.getElementById("retentionResult").textContent = "Swab retention and extraction loss must each be between 0% and 100%.";
     return;
   }
@@ -464,11 +1211,19 @@ function calcRetention(){
     warning += warningBlock("Estimated surface retention exceeds 100%. Check the entered quantities or loss assumptions.");
   }
 
-  document.getElementById("retentionResult").innerHTML =
-    `<strong>DNA recovery:</strong> ${fmt(pctRecovery*100)}%<br>` +
-    `<strong>Total DNA loss:</strong> ${fmt(totalLoss*100)}%<br>` +
-    `<strong>Estimated surface retention:</strong> ${fmt(surfaceRetention*100)}%` +
-    warning;
+  const retentionBox = document.getElementById("retentionResult");
+  retentionBox.classList.remove("empty");
+  retentionBox.innerHTML =
+    `<div class="result-hero">
+       <span>Estimated Surface Retention</span>
+       <strong>${fmt(surfaceRetention*100)}%</strong>
+     </div>
+     <div class="result-details">
+       <div class="result-detail"><span>DNA recovery</span><strong>${fmt(pctRecovery*100)}%</strong></div>
+       <div class="result-detail"><span>Total DNA loss</span><strong>${fmt(totalLoss*100)}%</strong></div>
+       <div class="result-detail"><span>Swab Retention</span><strong>${fmt(swab*100)}%</strong></div>
+       <div class="result-detail"><span>DNA Extraction Loss</span><strong>${fmt(extract*100)}%</strong></div>
+     </div>` + warning;
 
   addHistoryEntry({
     title: "DNA Retention on Surface",
@@ -493,14 +1248,17 @@ function calcPathway(){
   const totalRecovery = 100 - totalLoss;
 
   if (!Number.isFinite(initial) || !Number.isFinite(recovered) || !(initial > 0) || recovered < 0) {
+    document.getElementById("pathwayResult").classList.remove("empty");
     document.getElementById("pathwayResult").textContent = "Enter a DNA deposited value greater than 0 and a recovered DNA value of 0 or greater.";
     return;
   }
   if (!isPercent(surface) || !isPercent(swab) || !isPercent(extract)) {
+    document.getElementById("pathwayResult").classList.remove("empty");
     document.getElementById("pathwayResult").textContent = "Surface retention, swab sampling loss, and extraction sampling loss must each be between 0% and 100%.";
     return;
   }
   if (totalRecovery <= 0) {
+    document.getElementById("pathwayResult").classList.remove("empty");
     document.getElementById("pathwayResult").textContent = "Combined modeled losses must be less than 100%.";
     return;
   }
@@ -513,12 +1271,19 @@ function calcPathway(){
     warning += warningBlock("The loss-adjusted DNA estimate exceeds the entered deposited DNA amount. Review the inputs and assumptions.");
   }
 
-  document.getElementById("pathwayResult").innerHTML =
-    `<strong>Total modeled loss:</strong> ${fmt(totalLoss)}%<br>` +
-    `<strong>Total modeled recovery:</strong> ${fmt(totalRecovery)}%<br>` +
-    `<strong>DNA adjusted for loss:</strong> ${fmt(adjusted)} ng<br>` +
-    `<strong>Adjusted amount as % of deposited DNA:</strong> ${fmt(pctOfInitial)}%` +
-    warning;
+  const pathwayBox = document.getElementById("pathwayResult");
+  pathwayBox.classList.remove("empty");
+  pathwayBox.innerHTML =
+    `<div class="result-hero">
+       <span>DNA Adjusted for Loss</span>
+       <strong>${fmt(adjusted)} ng</strong>
+     </div>
+     <div class="result-details">
+       <div class="result-detail"><span>Total modeled loss</span><strong>${fmt(totalLoss)}%</strong></div>
+       <div class="result-detail"><span>Total modeled recovery</span><strong>${fmt(totalRecovery)}%</strong></div>
+       <div class="result-detail"><span>Adjusted % of deposited DNA</span><strong>${fmt(pctOfInitial)}%</strong></div>
+       <div class="result-detail"><span>Measured recovered DNA</span><strong>${fmt(recovered)} ng</strong></div>
+     </div>` + warning;
 
   addHistoryEntry({
     title: "Transfer Pathway Adjustment",
@@ -536,14 +1301,16 @@ function calcPathway(){
 
 function clearRetention(){
   ["deposited","recovered","swab","extract"].forEach(id => document.getElementById(id).value = "");
-  document.getElementById("retentionResult").textContent =
-    "Results will appear here after you click Calculate.";
+  const box = document.getElementById("retentionResult");
+  box.classList.add("empty");
+  box.textContent = "Results will appear here after you click Calculate.";
 }
 
 function clearPathway(){
   ["initial","meanRecovered","surfaceRetention","pathSwab","pathExtract"].forEach(id => document.getElementById(id).value = "");
-  document.getElementById("pathwayResult").textContent =
-    "Results will appear here after you click Adjust for Loss.";
+  const box = document.getElementById("pathwayResult");
+  box.classList.add("empty");
+  box.textContent = "Results will appear here after you click Adjust for Loss.";
 }
 
 function useSurfaceValue(value, label){
@@ -736,10 +1503,32 @@ function calculateVisualPathway(){
 
   let current = start;
   let rows = "";
+  let visual = `
+    <div class="pathway-node start-node">
+      <div class="pathway-node-index">S</div>
+      <div>
+        <div class="pathway-node-title">Starting DNA</div>
+        <div class="pathway-node-meta">Amount entering the first event</div>
+      </div>
+      <div class="pathway-node-value">${start.toFixed(4)} ng</div>
+    </div>
+  `;
 
   visualPathwayEvents.forEach((e, i) => {
     const before = current;
     current = applyEvent(before, e);
+
+    visual += `
+      <div class="pathway-arrow"></div>
+      <div class="pathway-node">
+        <div class="pathway-node-index">${i+1}</div>
+        <div>
+          <div class="pathway-node-title">${e.name}</div>
+          <div class="pathway-node-meta">${operationText(e)} · ${e.source}</div>
+        </div>
+        <div class="pathway-node-value">${current.toFixed(4)} ng</div>
+      </div>
+    `;
 
     rows += `
       <tr>
@@ -753,28 +1542,49 @@ function calculateVisualPathway(){
     `;
   });
 
+  visual += `
+    <div class="pathway-arrow"></div>
+    <div class="pathway-node end-node">
+      <div class="pathway-node-index">F</div>
+      <div>
+        <div class="pathway-node-title">Final Estimated DNA</div>
+        <div class="pathway-node-meta">Amount remaining after all selected events</div>
+      </div>
+      <div class="pathway-node-value">${current.toFixed(4)} ng</div>
+    </div>
+  `;
+
   const totalFraction = current/start;
   const totalRecovery = totalFraction*100;
   const totalReduction = 100-totalRecovery;
 
   setResult("visualPathwayResult",
-    `<strong>Starting DNA:</strong> ${start.toFixed(4)} ng<br>` +
-    `<strong>Final estimated DNA:</strong> ${current.toFixed(4)} ng<br>` +
-    `<strong>Final amount as % of starting DNA:</strong> ${totalRecovery.toFixed(2)}%<br>` +
-    `<strong>Overall reduction from starting DNA:</strong> ${totalReduction.toFixed(2)}%<br><br>` +
-    `<table class="summary-table">
-      <thead>
-        <tr>
-          <th>Step</th>
-          <th>Type</th>
-          <th>Applied parameter</th>
-          <th>DNA before</th>
-          <th>DNA after</th>
-          <th>Equation</th>
-        </tr>
-      </thead>
-      <tbody>${rows}</tbody>
-    </table>`
+    `<div class="result-hero">
+       <span>Final Estimated DNA</span>
+       <strong>${current.toFixed(4)} ng</strong>
+     </div>
+     <div class="result-details">
+       <div class="result-detail"><span>Starting DNA</span><strong>${start.toFixed(4)} ng</strong></div>
+       <div class="result-detail"><span>Final % of starting DNA</span><strong>${totalRecovery.toFixed(2)}%</strong></div>
+       <div class="result-detail"><span>Overall reduction</span><strong>${totalReduction.toFixed(2)}%</strong></div>
+       <div class="result-detail"><span>Pathway events</span><strong>${visualPathwayEvents.length}</strong></div>
+     </div>
+     <div class="pathway-visual">${visual}</div>
+     <div class="result-table-wrap">
+       <table class="summary-table">
+         <thead>
+           <tr>
+             <th>Step</th>
+             <th>Type</th>
+             <th>Applied parameter</th>
+             <th>DNA before</th>
+             <th>DNA after</th>
+             <th>Equation</th>
+           </tr>
+         </thead>
+         <tbody>${rows}</tbody>
+       </table>
+     </div>`
   );
 }
 
