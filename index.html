@@ -86,7 +86,7 @@
   <section class="card">
     <h2>Visual Transfer Pathway Builder</h2>
     <p class="note">
-      Build a sequence of DNA transfer, recovery, surface-retention, or laboratory-loss events. Surface-retention values represent DNA that remains on the surface and is therefore treated as unavailable for downstream recovery, so they are subtracted from the amount entering that step. Transfer and recovery values multiply by the stated fraction, while laboratory loss values are subtracted. Use this as an exploratory model only.
+      Build a sequence of DNA transfer, recovery, surface-retention, or laboratory-loss events. Surface-retention values represent DNA that remains on the surface and is therefore treated as unavailable for downstream recovery. Swab retention and extraction loss are classified as sampling losses and are also subtracted from the amount entering that step. Transfer and recovery values multiply by the stated fraction. Use this as an exploratory model only.
     </p>
 
     <div class="grid">
@@ -252,6 +252,21 @@ function useLabValue(fieldId, value, label){
 
 
 
+
+function setResult(id, htmlContent){
+  const box = document.getElementById(id);
+  if (!box) return;
+  box.classList.remove("empty");
+  box.innerHTML = htmlContent;
+}
+
+function setEmptyResult(id, message){
+  const box = document.getElementById(id);
+  if (!box) return;
+  box.classList.add("empty");
+  box.textContent = message;
+}
+
 const pathwayCatalog = [
   {name:"Drug baggie surface retention", percent:1, type:"retention_loss", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
   {name:"Brass door plate surface retention", percent:6, type:"retention_loss", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
@@ -263,9 +278,9 @@ const pathwayCatalog = [
   {name:"Knife handle surface retention", percent:13, type:"retention_loss", source:"Aldrin John N. Alviar (Graduate Thesis)"},
   {name:"Lorica leather surface retention", percent:6, type:"retention_loss", source:"Alviar, Wickenheiser & Hall (2026) / Graduate Thesis"},
   {name:"Knife sheath snap button surface retention", percent:11, type:"retention_loss", source:"Alviar, Wickenheiser & Hall (2026)"},
-  {name:"Swab retention", percent:25, type:"loss", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
-  {name:"DNA IQ extraction loss", percent:49, type:"loss", source:"Alviar, Wickenheiser & Hall (2026) / Graduate Thesis"},
-  {name:"Organic DNA extraction loss", percent:33, type:"loss", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
+  {name:"Swab retention (sampling loss)", percent:25, type:"sampling_loss", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
+  {name:"DNA IQ extraction (sampling loss)", percent:49, type:"sampling_loss", source:"Alviar, Wickenheiser & Hall (2026) / Graduate Thesis"},
+  {name:"Organic DNA extraction (sampling loss)", percent:33, type:"sampling_loss", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
   {name:"Custom surface retention (loss)", percent:null, type:"retention_loss", source:"User-defined"},
   {name:"Custom transfer", percent:null, type:"transfer", source:"User-defined"},
   {name:"Custom recovery", percent:null, type:"recovery", source:"User-defined"},
@@ -290,7 +305,8 @@ function typeLabel(type){
     retention_loss:"Surface retention (loss)",
     transfer:"Transfer",
     recovery:"Recovery",
-    loss:"Loss"
+    loss:"Loss",
+    sampling_loss:"Sampling loss"
   };
   return labels[type] || type;
 }
@@ -353,7 +369,7 @@ function renderPathwayList(){
 function applyEvent(before, event){
   const p = event.percent / 100;
 
-  if (event.type === "loss" || event.type === "retention_loss"){
+  if (event.type === "loss" || event.type === "retention_loss" || event.type === "sampling_loss"){
     return before * (1 - p);
   }
 
@@ -371,6 +387,9 @@ function operationText(event){
   if (event.type === "retention_loss"){
     return `${event.percent.toFixed(2)}% retained on surface / lost from downstream recovery`;
   }
+  if (event.type === "sampling_loss"){
+    return `${event.percent.toFixed(2)}% sampling loss`;
+  }
   if (event.type === "retention"){
     return `${event.percent.toFixed(2)}% retained`;
   }
@@ -386,7 +405,7 @@ function operationText(event){
 function equationText(event){
   const p = (event.percent/100).toFixed(4);
 
-  if (event.type === "loss" || event.type === "retention_loss"){
+  if (event.type === "loss" || event.type === "retention_loss" || event.type === "sampling_loss"){
     return `DNA after = DNA before × (1 − ${p})`;
   }
 
