@@ -130,19 +130,80 @@
       font-size: 0.92rem;
     }
 
+  
+    .grid > div {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .grid label {
+      min-height: 44px;
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .grid input,
+    .grid select {
+      margin-top: 6px;
+    }
+
+    .export-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    @media print {
+      body {
+        background: white;
+        max-width: none;
+        padding: 0;
+      }
+
+      body > * {
+        display: none !important;
+      }
+
+      h1,
+      .subtitle,
+      #calculationHistorySection {
+        display: block !important;
+      }
+
+      #calculationHistorySection * {
+        display: revert !important;
+      }
+
+      #calculationHistorySection .button-row,
+      #calculationHistorySection .export-row,
+      #calculationHistorySection > .note {
+        display: none !important;
+      }
+
+      .history-card {
+        break-inside: avoid;
+        background: white;
+      }
+    }
+
   </style>
 </head>
 <body>
   <h1>Touch DNA Calculator</h1>
-  <p class="subtitle">Research calculator for DNA retention, transfer, and recovery pathways.</p>
+  <p class="subtitle">
+    Research calculator for DNA retention, transfer, and recovery pathways.<br>
+    <span class="note">Version 0.1.5 — Research Prototype</span>
+  </p>
 
   <section class="card">
     <h2>DNA Retention on Surface</h2>
     <div class="grid">
       <div><label for="deposited">DNA deposited (ng) <span class="info-tip" tabindex="0" aria-label="Information">i<span class="tooltip-text">Starting DNA quantity placed on or associated with the tested surface. Must be greater than 0 ng.</span></span></label><input id="deposited" type="number" step="any" min="0" placeholder="Enter DNA amount"></div>
       <div><label for="recovered">Mean DNA recovered (ng) <span class="info-tip" tabindex="0" aria-label="Information">i<span class="tooltip-text">Measured mean DNA quantity recovered after the relevant sampling and extraction process. Must be 0 ng or greater.</span></span></label><input id="recovered" type="number" step="any" min="0" placeholder="Enter recovered DNA"></div>
-      <div><label for="swab">Swab retention / sampling loss (%) <span class="info-tip" tabindex="0" aria-label="Information">i<span class="tooltip-text">Percentage of DNA considered lost during the swabbing or sampling step. Enter a value from 0% to 100%.</span></span></label><input id="swab" type="number" step="any" min="0" max="100" placeholder="Enter swab retention"></div>
-      <div><label for="extract">Extraction sampling loss (%) <span class="info-tip" tabindex="0" aria-label="Information">i<span class="tooltip-text">Percentage of DNA considered lost during DNA extraction. Enter a value from 0% to 100%.</span></span></label><input id="extract" type="number" step="any" min="0" max="100" placeholder="Enter extraction loss"></div>
+      <div><label for="swab">Swab Retention (%) <span class="info-tip" tabindex="0" aria-label="Information">i<span class="tooltip-text">Percentage of DNA considered lost during the swabbing or sampling step. Enter a value from 0% to 100%.</span></span></label><input id="swab" type="number" step="any" min="0" max="100" placeholder="Enter swab retention"></div>
+      <div><label for="extract">DNA Extraction Loss (%) <span class="info-tip" tabindex="0" aria-label="Information">i<span class="tooltip-text">Percentage of DNA considered lost during DNA extraction. Enter a value from 0% to 100%.</span></span></label><input id="extract" type="number" step="any" min="0" max="100" placeholder="Enter extraction loss"></div>
     </div>
     <button onclick="calcRetention()">Calculate</button>
     <button onclick="clearRetention()">Clear</button>
@@ -155,22 +216,13 @@
       <div><label for="initial">DNA deposited (ng) <span class="info-tip" tabindex="0" aria-label="Information">i<span class="tooltip-text">Starting DNA quantity used for the pathway-adjustment calculation. Must be greater than 0 ng.</span></span></label><input id="initial" type="number" step="any" min="0" placeholder="Enter DNA amount"></div>
       <div><label for="meanRecovered">Mean DNA recovered (ng) <span class="info-tip" tabindex="0" aria-label="Information">i<span class="tooltip-text">Observed mean recovered DNA quantity used for the adjustment. Must be 0 ng or greater.</span></span></label><input id="meanRecovered" type="number" step="any" min="0" placeholder="Enter recovered DNA"></div>
       <div><label for="surfaceRetention">Surface retention (%) <span class="info-tip" tabindex="0" aria-label="Information">i<span class="tooltip-text">Percentage of DNA that remains on the surface and is treated as unavailable for downstream recovery. Enter 0% to 100%.</span></span></label><input id="surfaceRetention" type="number" step="any" min="0" max="100" placeholder="Enter or select a Bullpen value"></div>
-      <div><label for="pathSwab">Swab retention / sampling loss (%) <span class="info-tip" tabindex="0" aria-label="Information">i<span class="tooltip-text">Percentage of DNA loss attributed to the swabbing or sampling step. Enter 0% to 100%.</span></span></label><input id="pathSwab" type="number" step="any" min="0" max="100" placeholder="Enter swab retention"></div>
-      <div><label for="pathExtract">Extraction sampling loss (%) <span class="info-tip" tabindex="0" aria-label="Information">i<span class="tooltip-text">Percentage of DNA loss attributed to the extraction process. Enter 0% to 100%.</span></span></label><input id="pathExtract" type="number" step="any" min="0" max="100" placeholder="Enter extraction loss"></div>
+      <div><label for="pathSwab">Swab Retention (%) <span class="info-tip" tabindex="0" aria-label="Information">i<span class="tooltip-text">Percentage of DNA loss attributed to the swabbing or sampling step. Enter 0% to 100%.</span></span></label><input id="pathSwab" type="number" step="any" min="0" max="100" placeholder="Enter swab retention"></div>
+      <div><label for="pathExtract">DNA Extraction Loss (%) <span class="info-tip" tabindex="0" aria-label="Information">i<span class="tooltip-text">Percentage of DNA loss attributed to the extraction process. Enter 0% to 100%.</span></span></label><input id="pathExtract" type="number" step="any" min="0" max="100" placeholder="Enter extraction loss"></div>
     </div>
     <button onclick="calcPathway()">Adjust for Loss</button>
     <button onclick="clearPathway()">Clear</button>
     <div class="result" id="pathwayResult">Results will appear here after you click Adjust for Loss.</div>
   </section>
-
-  <section class="card">
-    <h2>Using Parameter Information</h2>
-    <p class="note">
-      Hover your cursor over the <span class="info-tip" tabindex="0" aria-label="Information example">i<span class="tooltip-text">Parameter definitions and input rules appear here.</span></span>
-      symbol beside an input label to see its definition and input rule. Keyboard users can tab to the symbol to display the same information.
-    </p>
-  </section>
-
 <section class="card">
     <h2>Methodology &amp; Equations</h2>
     <p class="note">
@@ -229,78 +281,7 @@
       </p>
     </div>
   </section>
-
-  <section class="card">
-    <h2>Validation Against Original Excel Workbook</h2>
-    <p class="note">
-      These fixed test cases are regression checks based on the formulas and example values in the
-      original spreadsheet. Click the button to verify that the current web calculation engine
-      reproduces the expected numerical results.
-    </p>
-
-    <table>
-      <thead>
-        <tr>
-          <th>Test</th>
-          <th>Inputs</th>
-          <th>Expected result</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Surface retention</td>
-          <td>9 ng deposited; 1.37 ng recovered; 25% swab; 49% extraction</td>
-          <td>10.7778% surface retention</td>
-        </tr>
-        <tr>
-          <td>Pathway adjustment — Domesticated hand</td>
-          <td>9 ng deposited; 1.09 ng recovered; 7% surface; 25% swab; 49% extraction</td>
-          <td>5.736842 ng adjusted</td>
-        </tr>
-        <tr>
-          <td>Pathway adjustment — Snap button</td>
-          <td>9 ng deposited; 0.60 ng recovered; 11% surface; 25% swab; 49% extraction</td>
-          <td>4.000000 ng adjusted</td>
-        </tr>
-        <tr>
-          <td>Sequential builder regression test</td>
-          <td>9 ng → 11% surface retention → 25% sampling loss → 49% sampling loss</td>
-          <td>3.063825 ng final</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="button-row">
-      <button type="button" id="runValidationBtn">Run Validation Tests</button>
-    </div>
-
-    <div class="result empty" id="validationResult">
-      Validation results will appear here.
-    </div>
-  </section>
-
 <section class="card">
-    <h2>Bullpen of Events — Current Workbook Values</h2>
-    <table>
-      <thead><tr><th>Surface</th><th>Retention</th><th>Source</th><th>Apply</th></tr></thead>
-      <tbody>
-        <tr><td>Drug baggie</td><td>1%</td><td><a href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(1, 'Drug baggie')">Use this value</button></td></tr>
-        <tr><td>Brass door plate</td><td>6%</td><td><a href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(6, 'Brass door plate')">Use this value</button></td></tr>
-        <tr><td>Knife handle</td><td>13%</td><td><a href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(13, 'Knife handle')">Use this value</button></td></tr>
-        <tr><td>Knife sheath snap button</td><td>11%</td><td><a href="https://www.sciencedirect.com/science/article/pii/S2589871X26000331#article" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(11, 'Knife sheath snap button')">Use this value</button></td></tr>
-        <tr><td>Subway pole</td><td>16%</td><td><a href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(16, 'Subway pole')">Use this value</button></td></tr>
-        <tr><td>Steering wheel</td><td>18%</td><td><a href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(18, 'Steering wheel')">Use this value</button></td></tr>
-        <tr><td>Glass slide</td><td>16%</td><td><a href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(16, 'Glass slide')">Use this value</button></td></tr>
-        <tr><td>Gelatine-based</td><td>15%</td><td><a href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(15, 'Gelatine-based')">Use this value</button></td></tr>
-        <tr><td>PVA-PDMS</td><td>15%</td><td><a href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(15, 'PVA-PDMS')">Use this value</button></td></tr>
-        <tr><td>Lorica leather</td><td>6%</td><td><a href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a><br><a href="https://www.sciencedirect.com/science/article/pii/S2589871X26000331#article" target="_blank" rel="noopener noreferrer">Alviar et. al. (2026)</a></td><td><button type="button" onclick="useSurfaceValue(6, 'Lorica leather')">Use this value</button></td></tr>
-      </tbody>
-    </table>
-    <p class="note">Prototype based on the values in the uploaded Excel workbook. Validate all equations and research assumptions before formal scientific release.</p>
-  </section>
-
-  
-  <section class="card">
     <h2>Visual Transfer Pathway Builder</h2>
     <p class="note">
       Build a sequence of DNA transfer, recovery, surface-retention, or laboratory-loss events. Surface-retention values represent DNA that remains on the surface and is therefore treated as unavailable for downstream recovery. Swab retention and extraction loss are classified as sampling losses and are also subtracted from the amount entering that step. Transfer and recovery values multiply by the stated fraction. Use this as an exploratory model only.
@@ -345,6 +326,25 @@
     </div>
   </section>
 
+  <section class="card">
+    <h2>Bullpen of Events — Current Workbook Values</h2>
+    <table>
+      <thead><tr><th>Surface</th><th>Retention</th><th>Source</th><th>Apply</th></tr></thead>
+      <tbody>
+        <tr><td>Drug baggie</td><td>1%</td><td><a href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(1, 'Drug baggie')">Use this value</button></td></tr>
+        <tr><td>Brass door plate</td><td>6%</td><td><a href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(6, 'Brass door plate')">Use this value</button></td></tr>
+        <tr><td>Knife handle</td><td>13%</td><td><a href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(13, 'Knife handle')">Use this value</button></td></tr>
+        <tr><td>Knife sheath snap button</td><td>11%</td><td><a href="https://www.sciencedirect.com/science/article/pii/S2589871X26000331#article" target="_blank" rel="noopener noreferrer">Alviar, Wickenheiser &amp; Hall (2026)</a></td><td><button type="button" onclick="useSurfaceValue(11, 'Knife sheath snap button')">Use this value</button></td></tr>
+        <tr><td>Subway pole</td><td>16%</td><td><a href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(16, 'Subway pole')">Use this value</button></td></tr>
+        <tr><td>Steering wheel</td><td>18%</td><td><a href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(18, 'Steering wheel')">Use this value</button></td></tr>
+        <tr><td>Glass slide</td><td>16%</td><td><a href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(16, 'Glass slide')">Use this value</button></td></tr>
+        <tr><td>Gelatine-based</td><td>15%</td><td><a href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(15, 'Gelatine-based')">Use this value</button></td></tr>
+        <tr><td>PVA-PDMS</td><td>15%</td><td><a href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(15, 'PVA-PDMS')">Use this value</button></td></tr>
+        <tr><td>Lorica leather</td><td>6%</td><td><a href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a><br><a href="https://www.sciencedirect.com/science/article/pii/S2589871X26000331#article" target="_blank" rel="noopener noreferrer">Alviar et. al. (2026)</a></td><td><button type="button" onclick="useSurfaceValue(6, 'Lorica leather')">Use this value</button></td></tr>
+      </tbody>
+    </table>
+    <p class="note">Prototype based on the values in the uploaded Excel workbook. Validate all equations and research assumptions before formal scientific release.</p>
+  </section>
 <section class="card">
     <h2>Scientific Publications &amp; Research Sources</h2>
 
@@ -385,6 +385,34 @@
          href="https://www.sciencedirect.com/science/article/pii/S2589871X26000331"
          target="_blank" rel="noopener noreferrer">View Alviar, Wickenheiser &amp; Hall (2026)</a>
     </div>
+  </section>
+
+
+  <section class="card" id="calculationHistorySection">
+    <h2>Calculation History &amp; Export</h2>
+    <p class="note">
+      Completed calculations are stored locally in this browser so you can compare recent results.
+      The webpage does not upload this calculation history.
+    </p>
+
+    <div class="export-row">
+      <button type="button" id="printResultsBtn">Print / Save as PDF</button>
+      <button type="button" class="secondary-button" id="exportCsvBtn">Export History CSV</button>
+      <button type="button" class="secondary-button" id="clearHistoryBtn">Clear History</button>
+    </div>
+
+    <div id="calculationHistory">
+      <p class="history-empty">No calculations recorded yet.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Important Disclaimer</h2>
+    <p class="note">
+      This calculator is a research prototype and is not a validated forensic casework software package.
+      Results depend on the assumptions and experimental parameters entered by the user and should not be
+      used as the sole basis for forensic conclusions, legal opinions, source attribution, or testimony.
+    </p>
   </section>
 
 <script>
@@ -447,8 +475,8 @@ function calcRetention(){
     fields: [
       {label:"DNA deposited", value:`${fmt(deposited)} ng`},
       {label:"Mean DNA recovered", value:`${fmt(recovered)} ng`},
-      {label:"Swab sampling loss", value:`${fmt(swab*100)}%`},
-      {label:"Extraction sampling loss", value:`${fmt(extract*100)}%`},
+      {label:"Swab Retention", value:`${fmt(swab*100)}%`},
+      {label:"DNA Extraction Loss", value:`${fmt(extract*100)}%`},
       {label:"Estimated surface retention", value:`${fmt(surfaceRetention*100)}%`}
     ]
   });
@@ -498,8 +526,8 @@ function calcPathway(){
       {label:"DNA deposited", value:`${fmt(initial)} ng`},
       {label:"Mean DNA recovered", value:`${fmt(recovered)} ng`},
       {label:"Surface retention", value:`${fmt(surface)}%`},
-      {label:"Swab sampling loss", value:`${fmt(swab)}%`},
-      {label:"Extraction sampling loss", value:`${fmt(extract)}%`},
+      {label:"Swab Retention", value:`${fmt(swab)}%`},
+      {label:"DNA Extraction Loss", value:`${fmt(extract)}%`},
       {label:"Adjusted DNA", value:`${fmt(adjusted)} ng`},
       {label:"Adjusted % of deposited", value:`${fmt(pctOfInitial)}%`}
     ]
@@ -822,82 +850,64 @@ function clearHistory(){
   renderHistory();
 }
 
-function nearlyEqual(actual, expected, tolerance = 0.0001){
-  return Math.abs(actual - expected) <= tolerance;
+
+
+function printResults(){
+  const history = loadHistory();
+  if (!history.length){
+    alert("There are no recorded calculations to print.");
+    return;
+  }
+  window.print();
 }
 
-function runValidationTests(){
-  const results = [];
+function csvEscape(value){
+  const text = String(value ?? "");
+  return `"${text.replace(/"/g, '""')}"`;
+}
 
-  // Test 1: DNA Retention on Surface
-  const deposited1 = 9;
-  const recovered1 = 1.37;
-  const swab1 = 25 / 100;
-  const extraction1 = 49 / 100;
-  const recoveryFraction1 = recovered1 / deposited1;
-  const totalLoss1 = 1 - recoveryFraction1;
-  const surfaceRetention1 = (totalLoss1 - swab1 - extraction1) * 100;
-  results.push({
-    name: "Surface retention",
-    actual: surfaceRetention1,
-    expected: 10.7777777778,
-    unit: "%"
+function exportHistoryCsv(){
+  const history = loadHistory();
+
+  if (!history.length){
+    alert("There are no recorded calculations to export.");
+    return;
+  }
+
+  const rows = [
+    ["Calculation", "Date/Time", "Parameter", "Value"]
+  ];
+
+  history.forEach(entry => {
+    const fields = entry.fields || [];
+    if (!fields.length){
+      rows.push([entry.title || "", entry.timestamp || "", "", ""]);
+    } else {
+      fields.forEach(field => {
+        rows.push([
+          entry.title || "",
+          entry.timestamp || "",
+          field.label || "",
+          field.value || ""
+        ]);
+      });
+    }
   });
 
-  // Test 2: Spreadsheet pathway adjustment — Domesticated hand
-  const totalRecovery2 = 100 - (7 + 25 + 49);
-  const adjusted2 = 1.09 / (totalRecovery2 / 100);
-  results.push({
-    name: "Domesticated hand adjustment",
-    actual: adjusted2,
-    expected: 5.7368421053,
-    unit: " ng"
-  });
+  const csv = rows
+    .map(row => row.map(csvEscape).join(","))
+    .join("\n");
 
-  // Test 3: Spreadsheet pathway adjustment — Snap button
-  const totalRecovery3 = 100 - (11 + 25 + 49);
-  const adjusted3 = 0.60 / (totalRecovery3 / 100);
-  results.push({
-    name: "Snap button adjustment",
-    actual: adjusted3,
-    expected: 4.0,
-    unit: " ng"
-  });
-
-  // Test 4: Sequential pathway builder regression
-  let sequential = 9;
-  sequential = sequential * (1 - 0.11);
-  sequential = sequential * (1 - 0.25);
-  sequential = sequential * (1 - 0.49);
-  results.push({
-    name: "Sequential builder",
-    actual: sequential,
-    expected: 3.063825,
-    unit: " ng"
-  });
-
-  const allPass = results.every(r => nearlyEqual(r.actual, r.expected));
-
-  const rows = results.map(r => {
-    const pass = nearlyEqual(r.actual, r.expected);
-    return `
-      <tr>
-        <td>${r.name}</td>
-        <td>${r.expected.toFixed(6)}${r.unit}</td>
-        <td>${r.actual.toFixed(6)}${r.unit}</td>
-        <td><strong>${pass ? "PASS" : "FAIL"}</strong></td>
-      </tr>
-    `;
-  }).join("");
-
-  setResult(
-    "validationResult",
-    `<strong>${allPass ? "All validation tests passed." : "One or more validation tests failed."}</strong><br><br>` +
-    `<table>
-      <thead><tr><th>Test</th><th>Expected</th><th>Calculated</th><th>Status</th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table>`
-  );
+  const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  const stamp = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = `touch-dna-calculator-history-${stamp}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 document.addEventListener("DOMContentLoaded", function(){
@@ -907,14 +917,16 @@ document.addEventListener("DOMContentLoaded", function(){
   const addBtn = document.getElementById("addPathwayEventBtn");
   const calcBtn = document.getElementById("calculatePathwayBtn");
   const clearBtn = document.getElementById("clearPathwayBuilderBtn");
-  const validationBtn = document.getElementById("runValidationBtn");
   const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+  const printResultsBtn = document.getElementById("printResultsBtn");
+  const exportCsvBtn = document.getElementById("exportCsvBtn");
 
   if (addBtn) addBtn.addEventListener("click", addPathwayEvent);
   if (calcBtn) calcBtn.addEventListener("click", calculateVisualPathway);
   if (clearBtn) clearBtn.addEventListener("click", clearVisualPathway);
-  if (validationBtn) validationBtn.addEventListener("click", runValidationTests);
   if (clearHistoryBtn) clearHistoryBtn.addEventListener("click", clearHistory);
+  if (printResultsBtn) printResultsBtn.addEventListener("click", printResults);
+  if (exportCsvBtn) exportCsvBtn.addEventListener("click", exportHistoryCsv);
 });
 
 
