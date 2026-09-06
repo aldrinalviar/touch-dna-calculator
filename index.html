@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Touch DNA Calculator</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 1050px; margin: 0 auto; padding: 28px; background:#f6f7f9; color:#1f2937; }
+    h1 { margin-bottom: 6px; }
+    .subtitle { color:#5b6472; margin-top:0; }
+    .card { background:white; border:1px solid #d9dee7; border-radius:12px; padding:22px; margin:20px 0; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+    label { display:block; font-weight:600; margin-bottom:6px; }
+    input, select { width:100%; box-sizing:border-box; padding:10px; border:1px solid #bfc7d4; border-radius:8px; }
+    button { margin-top:14px; padding:10px 16px; border:0; border-radius:8px; cursor:pointer; font-weight:700; }
+    .result { margin-top:16px; padding:14px; background:#f0f3f7; border-radius:8px; line-height:1.7; }
+    table { width:100%; border-collapse:collapse; margin-top:10px; }
+    th, td { padding:9px; border-bottom:1px solid #e5e7eb; text-align:left; }
+    .note { font-size:.92rem; color:#606a78; }
+  </style>
+</head>
+<body>
+  <h1>Touch DNA Calculator</h1>
+  <p class="subtitle">Research calculator for DNA retention, transfer, and recovery pathways.</p>
+
+  <section class="card">
+    <h2>DNA Retention on Surface</h2>
+    <div class="grid">
+      <div><label for="deposited">DNA deposited (ng)</label><input id="deposited" type="number" step="any" value="9"></div>
+      <div><label for="recovered">Mean DNA recovered (ng)</label><input id="recovered" type="number" step="any" value="1.37"></div>
+      <div><label for="swab">Swab retention (%)</label><input id="swab" type="number" step="any" value="25"></div>
+      <div><label for="extract">Extraction loss (%)</label><input id="extract" type="number" step="any" value="49"></div>
+    </div>
+    <button onclick="calcRetention()">Calculate</button>
+    <div class="result" id="retentionResult">Enter values and click Calculate.</div>
+  </section>
+
+  <section class="card">
+    <h2>Transfer Pathway Adjustment</h2>
+    <div class="grid">
+      <div><label for="initial">DNA deposited (ng)</label><input id="initial" type="number" step="any" value="9"></div>
+      <div><label for="meanRecovered">Mean DNA recovered (ng)</label><input id="meanRecovered" type="number" step="any" value="1.09"></div>
+      <div><label for="surfaceRetention">Surface retention (%)</label><input id="surfaceRetention" type="number" step="any" value="7"></div>
+      <div><label for="pathSwab">Swab retention (%)</label><input id="pathSwab" type="number" step="any" value="25"></div>
+      <div><label for="pathExtract">Extraction loss (%)</label><input id="pathExtract" type="number" step="any" value="49"></div>
+    </div>
+    <button onclick="calcPathway()">Adjust for Loss</button>
+    <div class="result" id="pathwayResult">Enter values and click Adjust for Loss.</div>
+  </section>
+
+  <section class="card">
+    <h2>Bullpen of Events — Current Workbook Values</h2>
+    <table>
+      <thead><tr><th>Surface</th><th>Retention</th></tr></thead>
+      <tbody>
+        <tr><td>Drug baggie</td><td>1%</td></tr>
+        <tr><td>Brass door plate</td><td>6%</td></tr>
+        <tr><td>Knife handle</td><td>13%</td></tr>
+        <tr><td>Subway pole</td><td>16%</td></tr>
+        <tr><td>Steering wheel</td><td>18%</td></tr>
+        <tr><td>Glass slide</td><td>16%</td></tr>
+        <tr><td>Gelatine-based</td><td>15%</td></tr>
+        <tr><td>PVA-PDMS</td><td>15%</td></tr>
+        <tr><td>Lorica leather</td><td>6%</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Prototype based on the values in the uploaded Excel workbook. Validate all equations and research assumptions before formal scientific release.</p>
+  </section>
+
+<script>
+function fmt(x){ return Number.isFinite(x) ? x.toFixed(2) : "—"; }
+
+function calcRetention(){
+  const deposited = parseFloat(document.getElementById("deposited").value);
+  const recovered = parseFloat(document.getElementById("recovered").value);
+  const swab = parseFloat(document.getElementById("swab").value) / 100;
+  const extract = parseFloat(document.getElementById("extract").value) / 100;
+
+  if (!(deposited > 0) || recovered < 0) {
+    document.getElementById("retentionResult").textContent = "Please enter valid values.";
+    return;
+  }
+
+  const pctRecovery = recovered / deposited;
+  const totalLoss = 1 - pctRecovery;
+  const swabPlusExtractionLoss = swab + extract;
+  const surfaceRetention = totalLoss - swabPlusExtractionLoss;
+
+  document.getElementById("retentionResult").innerHTML =
+    `<strong>DNA recovery:</strong> ${fmt(pctRecovery*100)}%<br>` +
+    `<strong>Total DNA loss:</strong> ${fmt(totalLoss*100)}%<br>` +
+    `<strong>Estimated surface retention:</strong> ${fmt(surfaceRetention*100)}%`;
+}
+
+function calcPathway(){
+  const initial = parseFloat(document.getElementById("initial").value);
+  const recovered = parseFloat(document.getElementById("meanRecovered").value);
+  const surface = parseFloat(document.getElementById("surfaceRetention").value);
+  const swab = parseFloat(document.getElementById("pathSwab").value);
+  const extract = parseFloat(document.getElementById("pathExtract").value);
+
+  const totalLoss = swab + extract + surface;
+  const totalRecovery = 100 - totalLoss;
+
+  if (!(initial > 0) || recovered < 0 || totalRecovery <= 0) {
+    document.getElementById("pathwayResult").textContent = "Please enter valid values. Total recovery must be greater than 0%.";
+    return;
+  }
+
+  const adjusted = recovered / (totalRecovery/100);
+  const pctOfInitial = (adjusted / initial) * 100;
+
+  document.getElementById("pathwayResult").innerHTML =
+    `<strong>Total modeled loss:</strong> ${fmt(totalLoss)}%<br>` +
+    `<strong>Total modeled recovery:</strong> ${fmt(totalRecovery)}%<br>` +
+    `<strong>DNA adjusted for loss:</strong> ${fmt(adjusted)} ng<br>` +
+    `<strong>Adjusted amount as % of deposited DNA:</strong> ${fmt(pctOfInitial)}%`;
+}
+</script>
+</body>
+</html>
