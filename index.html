@@ -86,7 +86,7 @@
   <section class="card">
     <h2>Visual Transfer Pathway Builder</h2>
     <p class="note">
-      Build a sequence of DNA transfer, retention, recovery, or loss events. The calculator now applies each percentage according to its parameter type: retention/transfer/recovery multiply by the stated fraction, while loss subtracts the stated fraction from the amount entering that step. Use this as an exploratory model only.
+      Build a sequence of DNA transfer, recovery, surface-retention, or laboratory-loss events. Surface-retention values represent DNA that remains on the surface and is therefore treated as unavailable for downstream recovery, so they are subtracted from the amount entering that step. Transfer and recovery values multiply by the stated fraction, while laboratory loss values are subtracted. Use this as an exploratory model only.
     </p>
 
     <div class="grid">
@@ -253,20 +253,20 @@ function useLabValue(fieldId, value, label){
 
 
 const pathwayCatalog = [
-  {name:"Drug baggie surface retention", percent:1, type:"retention", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
-  {name:"Brass door plate surface retention", percent:6, type:"retention", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
-  {name:"Steering wheel surface retention", percent:18, type:"retention", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
-  {name:"Glass slide surface retention", percent:16, type:"retention", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
-  {name:"Gelatine-based polymer surface retention", percent:15, type:"retention", source:"Aldrin John N. Alviar (Graduate Thesis)"},
-  {name:"PVA-PDMS surface retention", percent:15, type:"retention", source:"Aldrin John N. Alviar (Graduate Thesis)"},
-  {name:"Subway pole surface retention", percent:16, type:"retention", source:"Aldrin John N. Alviar (Graduate Thesis)"},
-  {name:"Knife handle surface retention", percent:13, type:"retention", source:"Aldrin John N. Alviar (Graduate Thesis)"},
-  {name:"Lorica leather surface retention", percent:6, type:"retention", source:"Alviar, Wickenheiser & Hall (2026) / Graduate Thesis"},
-  {name:"Knife sheath snap button surface retention", percent:11, type:"retention", source:"Alviar, Wickenheiser & Hall (2026)"},
+  {name:"Drug baggie surface retention", percent:1, type:"retention_loss", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
+  {name:"Brass door plate surface retention", percent:6, type:"retention_loss", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
+  {name:"Steering wheel surface retention", percent:18, type:"retention_loss", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
+  {name:"Glass slide surface retention", percent:16, type:"retention_loss", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
+  {name:"Gelatine-based polymer surface retention", percent:15, type:"retention_loss", source:"Aldrin John N. Alviar (Graduate Thesis)"},
+  {name:"PVA-PDMS surface retention", percent:15, type:"retention_loss", source:"Aldrin John N. Alviar (Graduate Thesis)"},
+  {name:"Subway pole surface retention", percent:16, type:"retention_loss", source:"Aldrin John N. Alviar (Graduate Thesis)"},
+  {name:"Knife handle surface retention", percent:13, type:"retention_loss", source:"Aldrin John N. Alviar (Graduate Thesis)"},
+  {name:"Lorica leather surface retention", percent:6, type:"retention_loss", source:"Alviar, Wickenheiser & Hall (2026) / Graduate Thesis"},
+  {name:"Knife sheath snap button surface retention", percent:11, type:"retention_loss", source:"Alviar, Wickenheiser & Hall (2026)"},
   {name:"Swab retention", percent:25, type:"loss", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
   {name:"DNA IQ extraction loss", percent:49, type:"loss", source:"Alviar, Wickenheiser & Hall (2026) / Graduate Thesis"},
   {name:"Organic DNA extraction loss", percent:33, type:"loss", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
-  {name:"Custom retention", percent:null, type:"retention", source:"User-defined"},
+  {name:"Custom surface retention (loss)", percent:null, type:"retention_loss", source:"User-defined"},
   {name:"Custom transfer", percent:null, type:"transfer", source:"User-defined"},
   {name:"Custom recovery", percent:null, type:"recovery", source:"User-defined"},
   {name:"Custom loss", percent:null, type:"loss", source:"User-defined"}
@@ -287,6 +287,7 @@ function initPathwayBuilder(){
 function typeLabel(type){
   const labels = {
     retention:"Retention",
+    retention_loss:"Surface retention (loss)",
     transfer:"Transfer",
     recovery:"Recovery",
     loss:"Loss"
@@ -352,7 +353,7 @@ function renderPathwayList(){
 function applyEvent(before, event){
   const p = event.percent / 100;
 
-  if (event.type === "loss"){
+  if (event.type === "loss" || event.type === "retention_loss"){
     return before * (1 - p);
   }
 
@@ -366,6 +367,9 @@ function applyEvent(before, event){
 function operationText(event){
   if (event.type === "loss"){
     return `${event.percent.toFixed(2)}% lost`;
+  }
+  if (event.type === "retention_loss"){
+    return `${event.percent.toFixed(2)}% retained on surface / lost from downstream recovery`;
   }
   if (event.type === "retention"){
     return `${event.percent.toFixed(2)}% retained`;
@@ -382,7 +386,7 @@ function operationText(event){
 function equationText(event){
   const p = (event.percent/100).toFixed(4);
 
-  if (event.type === "loss"){
+  if (event.type === "loss" || event.type === "retention_loss"){
     return `DNA after = DNA before × (1 − ${p})`;
   }
 
