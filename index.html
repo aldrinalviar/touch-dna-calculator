@@ -108,7 +108,7 @@
       </div>
 
       <div>
-        <button type="button" onclick="addPathwayEvent()">Add Event</button>
+        <button type="button" id="addPathwayEventBtn">Add Event</button>
       </div>
     </div>
 
@@ -119,8 +119,8 @@
     </div>
 
     <div class="builder-actions">
-      <button type="button" onclick="calculateVisualPathway()">Calculate Pathway</button>
-      <button type="button" class="secondary-button" onclick="clearVisualPathway()">Clear Pathway</button>
+      <button type="button" id="calculatePathwayBtn">Calculate Pathway</button>
+      <button type="button" class="secondary-button" id="clearPathwayBuilderBtn">Clear Pathway</button>
     </div>
 
     <div class="result empty" id="visualPathwayResult">
@@ -477,7 +477,17 @@ function clearVisualPathway(){
   setEmptyResult("visualPathwayResult","Add at least one event, then click Calculate Pathway.");
 }
 
-document.addEventListener("DOMContentLoaded", initPathwayBuilder);
+document.addEventListener("DOMContentLoaded", function(){
+  initPathwayBuilder();
+
+  const addBtn = document.getElementById("addPathwayEventBtn");
+  const calcBtn = document.getElementById("calculatePathwayBtn");
+  const clearBtn = document.getElementById("clearPathwayBuilderBtn");
+
+  if (addBtn) addBtn.addEventListener("click", addPathwayEvent);
+  if (calcBtn) calcBtn.addEventListener("click", calculateVisualPathway);
+  if (clearBtn) clearBtn.addEventListener("click", clearVisualPathway);
+});
 
 
 </script>
