@@ -64,17 +64,18 @@
   <section class="card">
     <h2>Bullpen of Events — Current Workbook Values</h2>
     <table>
-      <thead><tr><th>Surface</th><th>Retention</th><th>Apply</th></tr></thead>
+      <thead><tr><th>Surface</th><th>Retention</th><th>Source</th><th>Apply</th></tr></thead>
       <tbody>
-        <tr><td>Drug baggie</td><td>1%</td><td><button type="button" onclick="useSurfaceValue(1, 'Drug baggie')">Use this value</button></td></tr>
-        <tr><td>Brass door plate</td><td>6%</td><td><button type="button" onclick="useSurfaceValue(6, 'Brass door plate')">Use this value</button></td></tr>
-        <tr><td>Knife handle</td><td>13%</td><td><button type="button" onclick="useSurfaceValue(13, 'Knife handle')">Use this value</button></td></tr>
-        <tr><td>Subway pole</td><td>16%</td><td><button type="button" onclick="useSurfaceValue(16, 'Subway pole')">Use this value</button></td></tr>
-        <tr><td>Steering wheel</td><td>18%</td><td><button type="button" onclick="useSurfaceValue(18, 'Steering wheel')">Use this value</button></td></tr>
-        <tr><td>Glass slide</td><td>16%</td><td><button type="button" onclick="useSurfaceValue(16, 'Glass slide')">Use this value</button></td></tr>
-        <tr><td>Gelatine-based</td><td>15%</td><td><button type="button" onclick="useSurfaceValue(15, 'Gelatine-based')">Use this value</button></td></tr>
-        <tr><td>PVA-PDMS</td><td>15%</td><td><button type="button" onclick="useSurfaceValue(15, 'PVA-PDMS')">Use this value</button></td></tr>
-        <tr><td>Lorica leather</td><td>6%</td><td><button type="button" onclick="useSurfaceValue(6, 'Lorica leather')">Use this value</button></td></tr>
+        <tr><td>Drug baggie</td><td>1%</td><td><a href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(1, 'Drug baggie')">Use this value</button></td></tr>
+        <tr><td>Brass door plate</td><td>6%</td><td><a href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(6, 'Brass door plate')">Use this value</button></td></tr>
+        <tr><td>Knife handle</td><td>13%</td><td><a href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(13, 'Knife handle')">Use this value</button></td></tr>
+        <tr><td>Knife sheath snap button</td><td>11%</td><td><a href="https://www.sciencedirect.com/science/article/pii/S2589871X26000331#article" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(11, 'Knife sheath snap button')">Use this value</button></td></tr>
+        <tr><td>Subway pole</td><td>16%</td><td><a href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(16, 'Subway pole')">Use this value</button></td></tr>
+        <tr><td>Steering wheel</td><td>18%</td><td><a href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(18, 'Steering wheel')">Use this value</button></td></tr>
+        <tr><td>Glass slide</td><td>16%</td><td><a href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(16, 'Glass slide')">Use this value</button></td></tr>
+        <tr><td>Gelatine-based</td><td>15%</td><td><a href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(15, 'Gelatine-based')">Use this value</button></td></tr>
+        <tr><td>PVA-PDMS</td><td>15%</td><td><a href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(15, 'PVA-PDMS')">Use this value</button></td></tr>
+        <tr><td>Lorica leather</td><td>6%</td><td><a href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a><br><a href="https://www.sciencedirect.com/science/article/pii/S2589871X26000331#article" target="_blank" rel="noopener noreferrer">Alviar et. al. (2026)</a></td><td><button type="button" onclick="useSurfaceValue(6, 'Lorica leather')">Use this value</button></td></tr>
       </tbody>
     </table>
     <p class="note">Prototype based on the values in the uploaded Excel workbook. Validate all equations and research assumptions before formal scientific release.</p>
@@ -150,6 +151,14 @@ function clearPathway(){
 function useSurfaceValue(value, label){
   document.getElementById("surfaceRetention").value = value;
   document.getElementById("surfaceRetention").focus();
+}
+
+
+function useLabValue(fieldId, value, label){
+  document.getElementById(fieldId).value = value;
+  const note = document.getElementById("selectedLabNote");
+  if (note) note.textContent = `Selected laboratory parameter: ${label} — ${value}%.`;
+  document.getElementById(fieldId).focus();
 }
 
 </script>
