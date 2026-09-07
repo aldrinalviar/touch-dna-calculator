@@ -1,117 +1,165 @@
 # Touch DNA Calculator
 
-A research-based calculator for modeling DNA retention, transfer, recovery, and loss across forensic touch DNA transfer pathways.
+**Aldrin John N. Alviar**  
+Forensic DNA Researcher | Criminalist
 
-🌐 **Live Calculator:**  
-https://aldrinalviar.github.io/touch-dna-calculator/
+A research-based web calculator for exploring DNA retention, recovery loss, and sequential touch DNA pathways using experimentally derived and research-linked parameters.
 
-## Overview
+## Live Calculator
 
-The Touch DNA Calculator is an interactive research tool designed to assist in the quantitative exploration of DNA transfer and recovery during touch DNA events.
+🔬 **[Open the Touch DNA Calculator](https://aldrinalviar.github.io/touch-dna-calculator/)**
 
-DNA recovered from an evidentiary surface represents only a portion of the biological material involved in an activity. The amount ultimately detected may be influenced by multiple processes, including:
+## Current Release
 
-- DNA retention on surfaces
-- DNA transfer between individuals and objects
-- Secondary transfer
-- Sampling and swabbing loss
-- DNA extraction loss
-- Sequential transfer events
+**Version 0.2.4 — Research Prototype**
 
-The calculator provides a framework for examining these processes individually and as components of a DNA transfer pathway.
+This is the first formal public research-prototype release of the Touch DNA Calculator.
 
-## Current Features
+## Features
 
-The current prototype includes:
-
-- Estimation of DNA retention on a surface
-- Adjustment of recovered DNA for known or estimated losses
-- Modeling of transfer pathways
-- User-defined DNA deposition and recovery values
+- DNA Retention on Surface Calculator
+- Transfer Pathway Adjustment Calculator
+- Visual Transfer Pathway Builder
+- Bullpen of Events
 - Surface-retention parameters
 - Swab-retention parameters
-- Extraction-loss parameters
-- A developing **Bullpen of Events** containing experimentally derived parameters for DNA transfer and recovery events
-
-## Scientific Concept
-
-A recovered DNA quantity can be viewed as the result of multiple transfer, retention, sampling, and laboratory processes.
-
-A simplified pathway can be represented as:
-
-DNA Deposition → Surface Interaction → Transfer → Swabbing → Extraction → DNA Recovered
-
-By characterizing losses or transfer efficiencies associated with individual events, the calculator can be used to explore how much DNA may have been involved at earlier stages of a pathway.
-
-The long-term goal of the project is to develop a quantitative framework for evaluating DNA transfer pathways relevant to activity-level propositions in forensic DNA interpretation.
+- DNA extraction-loss parameters
+- Research-linked experimental values
+- Scientific methodology and equations
+- Calculation history
+- Print / Save as PDF
+- CSV export
+- Input validation and warnings
 
 ## Bullpen of Events
 
-The **Bullpen of Events** is a developing collection of experimentally derived values describing DNA transfer, retention, loss, and recovery during individual events.
+The **Bullpen of Events** is a developing database of experimentally derived values describing individual events that may influence touch DNA transfer and recovery.
 
-Examples may include:
+Current parameters include data for:
 
-- Surface retention
-- Primary transfer
-- Secondary transfer
-- Swab recovery
-- Extraction recovery
-- Sequential transfer events
+- Drug baggie
+- Brass door plate
+- Steering wheel
+- Glass slide
+- Subway pole
+- Knife handle
+- Knife sheath snap button
+- Lorica leather
+- Gelatine-based polymer
+- PVA-PDMS
+- Rubber-wrapped aluminum knife handle
+- 9 mm Luger brass cartridge
+- Swab retention
+- DNA IQ extraction
+- Organic DNA extraction
+- QIAamp DNA Mini Kit
 
-As additional experimental data become available, the database can be expanded to support increasingly complex transfer scenarios.
+Each parameter is linked to its corresponding research source where available.
 
--You can read our published paper in this link: https://www.sciencedirect.com/science/article/pii/S2589871X26000331#article
+## Scientific Concept
+
+Recovered DNA represents only a portion of the biological material involved in an activity.
+
+DNA recovery may be influenced by:
+
+- surface retention
+- transfer between surfaces
+- sampling loss
+- swab retention
+- extraction loss
+- sequential transfer events
+
+The calculator provides a framework for exploring these processes quantitatively.
+
+## Methodology
+
+### Surface Retention
+
+The surface-retention calculator estimates DNA retained on a surface after accounting for measured DNA recovery and sampling-related losses.
+
+### Pathway Adjustment
+
+The pathway-adjustment calculator estimates DNA quantities after accounting for user-selected surface retention, swab retention, and extraction-loss parameters.
+
+### Visual Pathway Builder
+
+The pathway builder applies selected events sequentially to visualize how DNA quantity changes through a modeled pathway.
+
+Direct Transfer and Indirect Transfer modeling are planned for a future release.
+
+## Scientific Publications and Research Sources
+
+### Published Articles
+
+Tang, J., Ostrander, J., Wickenheiser, R., & Hall, A. (2020).  
+*Touch DNA in forensic science: The use of laboratory-created eccrine fingerprints to quantify DNA loss.*  
+Forensic Science International: Synergy, 2, 1–16.
+
+Alviar, A., Wickenheiser, R., & Hall, A. (2026).  
+*Forensic trace DNA analysis to answer activity-level questions in a realistic-scenario activity study based upon the case of Idaho v Bryan C. Kohberger.*  
+Forensic Science International: Synergy, 12, 100690.
+
+### Graduate Theses
+
+Alviar, A. (2025).  
+*Development of Domesticated hands for Quantitative Analysis of DNA Transfer Pathways.*  
+University of California, Davis.
+
+Robinson, C. (2025).  
+*Primary and Secondary Transfer of Touch DNA on a Knife: A Quantitative Analysis.*  
+University of California, Davis.
+
+Ashok, A. R. (2024).  
+*Unlocking the Potential of Touch DNA on Firearms: Overcoming Challenges for Forensic Investigations.*  
+University of California, Davis.
 
 ## Intended Use
 
 This software is intended for:
 
-- Forensic science research
-- Education and training
-- Exploratory modeling of touch DNA transfer
-- Development and evaluation of activity-level DNA transfer hypotheses
+- forensic science research
+- education and training
+- exploratory touch DNA modeling
+- development of activity-level DNA transfer frameworks
 
 ## Important Disclaimer
 
-This calculator is currently a research prototype.
+The Touch DNA Calculator is currently a **research prototype**.
 
 It is not a validated forensic casework software package and should not be used as the sole basis for forensic conclusions, legal opinions, source attribution, or testimony.
 
-The calculations depend on the assumptions and experimental parameters selected by the user. DNA transfer is influenced by numerous biological, environmental, behavioral, and material factors, and experimental transfer values should not automatically be assumed to apply to unrelated case circumstances.
-
-## Current Version
-
-**Version 0.1.0 — Research Prototype**
-
-The web implementation is currently being developed and validated against the original spreadsheet-based calculator.
-
-## Author
-
-**Aldrin John N. Alviar**
-
-Forensic DNA Researcher
-
-Research interests include touch DNA transfer, DNA recovery, forensic DNA interpretation, and activity-level propositions.
-
-## Development Status
-
-This project is under active development.
-
-Planned improvements include:
-
-- Expanded transfer pathways
-- Primary and secondary transfer modeling
-- Additional Bullpen of Events parameters
-- References for individual experimental parameters
-- Improved visualization of transfer pathways
-- Exportable calculation results
-- Versioned scientific datasets
-- Validation and testing documentation
+Experimental transfer, retention, and recovery values are dependent on the conditions under which they were generated and should not automatically be assumed to apply to unrelated case circumstances.
 
 ## Citation
 
-A formal software citation will be added when a validated version of the calculator is released.
+If you use this software in research, please cite the repository using the **Cite this repository** option provided by GitHub.
+
+Suggested citation:
+
+> Alviar, Aldrin John N. (2026). *Touch DNA Calculator* (Version 0.2.4) [Computer software].
+
+Citation metadata are provided in `CITATION.cff`.
 
 ## License
 
-A software license has not yet been selected. All rights are reserved until a license is added.
+This project is released under the **MIT License**.
+
+See the `LICENSE` file for details.
+
+## Development
+
+Future development may include:
+
+- Direct Transfer modeling
+- Indirect Transfer modeling
+- contributor-specific DNA pathways
+- expanded Bullpen of Events
+- additional published experimental parameters
+- improved pathway visualization
+- downloadable calculation reports
+- formal software validation
+
+## Author
+
+**Aldrin John N. Alviar**  
+Forensic DNA Researcher | Criminalist
