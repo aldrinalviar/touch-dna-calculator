@@ -360,7 +360,7 @@
     }
 
     #pathway .grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     }
 
     .grid > div {
@@ -897,20 +897,103 @@
       }
     }
 
+  
+    .hero-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 190px;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .hero-copy {
+      min-width: 0;
+    }
+
+    .researcher-name {
+      margin-top: 16px;
+      font-size: 1.02rem;
+      font-weight: 850;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.98);
+    }
+
+    .researcher-role {
+      margin-top: 3px;
+      color: rgba(255,255,255,.76);
+      font-size: .92rem;
+      font-weight: 650;
+    }
+
+    .hero-logo-wrap {
+      width: 190px;
+      height: 190px;
+      padding: 9px;
+      border-radius: 26px;
+      background: rgba(255,255,255,.98);
+      border: 1px solid rgba(255,255,255,.55);
+      box-shadow: 0 18px 38px rgba(4, 24, 37, .24);
+      justify-self: end;
+    }
+
+    .hero-logo {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 20px;
+    }
+
+    .bullpen-subsection {
+      margin-top: 26px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+
+    .bullpen-subsection h3 {
+      margin-top: 0;
+    }
+
+    @media (max-width: 760px) {
+      .hero-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-logo-wrap {
+        width: 132px;
+        height: 132px;
+        justify-self: start;
+        grid-row: 1;
+      }
+
+      .hero-copy {
+        grid-row: 2;
+      }
+    }
+
   </style>
 </head>
 <body>
   <header class="hero" id="top">
     <div class="hero-inner">
-      <p class="eyebrow">Forensic DNA Research Tool</p>
-      <h1>Touch DNA Calculator</h1>
-      <p class="subtitle">
-        Explore DNA retention, recovery loss, and sequential touch-DNA pathways using transparent,
-        research-linked parameters.
-      </p>
-      <div class="hero-meta">
-        <span class="hero-badge">Version 0.2.0</span>
-        <span class="hero-badge">Research Prototype</span>
+      <div class="hero-layout">
+        <div class="hero-copy">
+          <p class="eyebrow">Forensic DNA Research Tool</p>
+          <h1>Touch DNA Calculator</h1>
+          <div class="researcher-name">ALDRIN JOHN ALVIAR</div>
+          <div class="researcher-role">Forensic DNA Researcher | Criminalist</div>
+          <p class="subtitle">
+            Explore DNA retention, recovery loss, and sequential touch-DNA pathways using transparent,
+            research-linked parameters.
+          </p>
+          <div class="hero-meta">
+            <span class="hero-badge">Version 0.2.1</span>
+            <span class="hero-badge">Research Prototype</span>
+          </div>
+        </div>
+        <div class="hero-logo-wrap">
+          <img class="hero-logo" src="touch-dna-logo.png" alt="Touch DNA transfer, prevalence, persistence, and recovery research logo">
+        </div>
       </div>
     </div>
   </header>
@@ -919,9 +1002,9 @@
     <div class="top-nav-inner">
       <a href="#retention">Retention Calculator</a>
       <a href="#pathway">Pathway Adjustment</a>
+      <a href="#methodology">Methodology</a>
       <a href="#builder">Pathway Builder</a>
       <a href="#bullpen">Bullpen</a>
-      <a href="#methodology">Methodology</a>
       <a href="#publications">Publications</a>
       <a href="#calculationHistorySection">History &amp; Export</a>
     </div>
@@ -1070,18 +1153,52 @@
     <div class="table-scroll"><table>
       <thead><tr><th>Surface</th><th>Retention</th><th>Source</th><th>Apply</th></tr></thead>
       <tbody>
-        <tr><td>Drug baggie</td><td>1%</td><td><a class="source-badge" href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(1, 'Drug baggie')">Use this value</button></td></tr>
-        <tr><td>Brass door plate</td><td>6%</td><td><a class="source-badge" href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(6, 'Brass door plate')">Use this value</button></td></tr>
+        <tr><td>Drug baggie</td><td>1%</td><td><a class="source-badge" href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(1, 'Drug baggie')">Use this value</button></td></tr>
+        <tr><td>Brass door plate</td><td>6%</td><td><a class="source-badge" href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(6, 'Brass door plate')">Use this value</button></td></tr>
+        <tr><td>9mm Luger Caliber Brass Cartridge</td><td>12%</td><td><a class="source-badge" href="https://escholarship.org/uc/item/21p7p87n" target="_blank" rel="noopener noreferrer">Ashok, Anutham (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(12, '9mm Luger Caliber Brass Cartridge')">Use this value</button></td></tr>
         <tr><td>Knife handle</td><td>13%</td><td><a class="source-badge" href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(13, 'Knife handle')">Use this value</button></td></tr>
+        <tr><td>Knife with Rubber-Wrapped Aluminum Handle</td><td>10%</td><td><a class="source-badge" href="https://escholarship.org/uc/item/9nq1f6j7#main" target="_blank" rel="noopener noreferrer">Robinson, Casey (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(10, 'Knife with Rubber-Wrapped Aluminum Handle')">Use this value</button></td></tr>
         <tr><td>Knife sheath snap button</td><td>11%</td><td><a class="source-badge" href="https://www.sciencedirect.com/science/article/pii/S2589871X26000331#article" target="_blank" rel="noopener noreferrer">Alviar, Wickenheiser &amp; Hall (2026)</a></td><td><button type="button" onclick="useSurfaceValue(11, 'Knife sheath snap button')">Use this value</button></td></tr>
         <tr><td>Subway pole</td><td>16%</td><td><a class="source-badge" href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(16, 'Subway pole')">Use this value</button></td></tr>
-        <tr><td>Steering wheel</td><td>18%</td><td><a class="source-badge" href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(18, 'Steering wheel')">Use this value</button></td></tr>
-        <tr><td>Glass slide</td><td>16%</td><td><a class="source-badge" href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et. al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(16, 'Glass slide')">Use this value</button></td></tr>
+        <tr><td>Steering wheel</td><td>18%</td><td><a class="source-badge" href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(18, 'Steering wheel')">Use this value</button></td></tr>
+        <tr><td>Glass slide</td><td>16%</td><td><a class="source-badge" href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et al. (2020)</a></td><td><button type="button" onclick="useSurfaceValue(16, 'Glass slide')">Use this value</button></td></tr>
         <tr><td>Gelatine-based</td><td>15%</td><td><a class="source-badge" href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(15, 'Gelatine-based')">Use this value</button></td></tr>
         <tr><td>PVA-PDMS</td><td>15%</td><td><a class="source-badge" href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a></td><td><button type="button" onclick="useSurfaceValue(15, 'PVA-PDMS')">Use this value</button></td></tr>
-        <tr><td>Lorica leather</td><td>6%</td><td><a class="source-badge" href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a><br><a class="source-badge" href="https://www.sciencedirect.com/science/article/pii/S2589871X26000331#article" target="_blank" rel="noopener noreferrer">Alviar et. al. (2026)</a></td><td><button type="button" onclick="useSurfaceValue(6, 'Lorica leather')">Use this value</button></td></tr>
+        <tr><td>Lorica leather</td><td>6%</td><td><a class="source-badge" href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a><br><a class="source-badge" href="https://www.sciencedirect.com/science/article/pii/S2589871X26000331#article" target="_blank" rel="noopener noreferrer">Alviar et al. (2026)</a></td><td><button type="button" onclick="useSurfaceValue(6, 'Lorica leather')">Use this value</button></td></tr>
       </tbody>
     </table></div>
+    <div class="bullpen-subsection">
+      <h3>Sampling &amp; DNA Extraction Loss Parameters</h3>
+      <p class="note">These percentages represent sampling or extraction-related DNA loss and can be applied directly to the corresponding calculator fields.</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Method</th><th>DNA Loss</th><th>Source</th><th>Apply</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Swab Retention</td><td>25%</td>
+              <td><a class="source-badge" href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et al. (2020)</a></td>
+              <td><button type="button" class="small-button" onclick="useLabValue('swab',25,'Swab Retention')">Retention Calculator</button> <button type="button" class="small-button" onclick="useLabValue('pathSwab',25,'Swab Retention')">Pathway Adjustment</button></td>
+            </tr>
+            <tr>
+              <td>Organic DNA Extraction</td><td>33%</td>
+              <td><a class="source-badge" href="https://www.sciencedirect.com/science/article/pii/S2589871X19301573" target="_blank" rel="noopener noreferrer">Tang et al. (2020)</a></td>
+              <td><button type="button" class="small-button" onclick="useLabValue('extract',33,'Organic DNA Extraction loss')">Retention Calculator</button> <button type="button" class="small-button" onclick="useLabValue('pathExtract',33,'Organic DNA Extraction loss')">Pathway Adjustment</button></td>
+            </tr>
+            <tr>
+              <td>DNA IQ Extraction</td><td>49%</td>
+              <td><a class="source-badge" href="https://escholarship.org/uc/item/4xg6d8zh" target="_blank" rel="noopener noreferrer">Alviar, Aldrin (Graduate Thesis)</a><br><a class="source-badge" href="https://www.sciencedirect.com/science/article/pii/S2589871X26000331" target="_blank" rel="noopener noreferrer">Alviar, Wickenheiser &amp; Hall (2026)</a></td>
+              <td><button type="button" class="small-button" onclick="useLabValue('extract',49,'DNA IQ Extraction loss')">Retention Calculator</button> <button type="button" class="small-button" onclick="useLabValue('pathExtract',49,'DNA IQ Extraction loss')">Pathway Adjustment</button></td>
+            </tr>
+            <tr>
+              <td>QIAamp DNA Mini Kit</td><td>52%</td>
+              <td><a class="source-badge" href="https://escholarship.org/uc/item/21p7p87n" target="_blank" rel="noopener noreferrer">Ashok, Anutham (Graduate Thesis)</a></td>
+              <td><button type="button" class="small-button" onclick="useLabValue('extract',52,'QIAamp DNA Mini Kit DNA loss')">Retention Calculator</button> <button type="button" class="small-button" onclick="useLabValue('pathExtract',52,'QIAamp DNA Mini Kit DNA loss')">Pathway Adjustment</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <p class="note">Prototype based on the values in the uploaded Excel workbook. Validate all equations and research assumptions before formal scientific release.</p>
   </section>
 <section class="card" id="publications">
@@ -1110,6 +1227,30 @@
       <a class="link-button"
          href="https://escholarship.org/uc/item/4xg6d8zh"
          target="_blank" rel="noopener noreferrer">View Aldrin John N. Alviar (Graduate Thesis)</a>
+    </div>
+
+    <div class="science-box">
+      <p><strong>Primary and Secondary Transfer of Touch DNA on a Knife: A Quantitative Analysis</strong></p>
+      <p class="note">
+        Robinson, C. (2025).
+        <em>Primary and Secondary Transfer of Touch DNA on a Knife: A Quantitative Analysis.</em>
+        Graduate thesis, University of California, Davis. eScholarship.
+      </p>
+      <a class="link-button"
+         href="https://escholarship.org/uc/item/9nq1f6j7#main"
+         target="_blank" rel="noopener noreferrer">View Robinson, Casey (Graduate Thesis)</a>
+    </div>
+
+    <div class="science-box">
+      <p><strong>Unlocking the Potential of Touch DNA on Firearms: Overcoming Challenges for Forensic Investigations</strong></p>
+      <p class="note">
+        Ashok, A. R. (2024).
+        <em>Unlocking the Potential of Touch DNA on Firearms: Overcoming Challenges for Forensic Investigations.</em>
+        Graduate thesis, University of California, Davis. eScholarship.
+      </p>
+      <a class="link-button"
+         href="https://escholarship.org/uc/item/21p7p87n"
+         target="_blank" rel="noopener noreferrer">View Ashok, Anutham (Graduate Thesis)</a>
     </div>
 
     <div class="science-box">
@@ -1346,17 +1487,20 @@ function setEmptyResult(id, message){
 const pathwayCatalog = [
   {name:"Drug baggie surface retention", percent:1, type:"retention_loss", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
   {name:"Brass door plate surface retention", percent:6, type:"retention_loss", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
+  {name:"9mm Luger Caliber Brass Cartridge surface retention", percent:12, type:"retention_loss", source:"Ashok, Anutham (Graduate Thesis)"},
   {name:"Steering wheel surface retention", percent:18, type:"retention_loss", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
   {name:"Glass slide surface retention", percent:16, type:"retention_loss", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
   {name:"Gelatine-based polymer surface retention", percent:15, type:"retention_loss", source:"Aldrin John N. Alviar (Graduate Thesis)"},
   {name:"PVA-PDMS surface retention", percent:15, type:"retention_loss", source:"Aldrin John N. Alviar (Graduate Thesis)"},
   {name:"Subway pole surface retention", percent:16, type:"retention_loss", source:"Aldrin John N. Alviar (Graduate Thesis)"},
   {name:"Knife handle surface retention", percent:13, type:"retention_loss", source:"Aldrin John N. Alviar (Graduate Thesis)"},
+  {name:"Knife with Rubber-Wrapped Aluminum Handle surface retention", percent:10, type:"retention_loss", source:"Robinson, Casey (Graduate Thesis)"},
   {name:"Lorica leather surface retention", percent:6, type:"retention_loss", source:"Alviar, Wickenheiser & Hall (2026) / Graduate Thesis"},
   {name:"Knife sheath snap button surface retention", percent:11, type:"retention_loss", source:"Alviar, Wickenheiser & Hall (2026)"},
   {name:"Swab retention (sampling loss)", percent:25, type:"sampling_loss", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
   {name:"DNA IQ extraction (sampling loss)", percent:49, type:"sampling_loss", source:"Alviar, Wickenheiser & Hall (2026) / Graduate Thesis"},
   {name:"Organic DNA extraction (sampling loss)", percent:33, type:"sampling_loss", source:"Tang, Ostrander, Wickenheiser & Hall (2020)"},
+  {name:"QIAamp DNA Mini Kit extraction (sampling loss)", percent:52, type:"sampling_loss", source:"Ashok, Anutham (Graduate Thesis)"},
   {name:"Custom surface retention (loss)", percent:null, type:"retention_loss", source:"User-defined"},
   {name:"Custom transfer", percent:null, type:"transfer", source:"User-defined"},
   {name:"Custom recovery", percent:null, type:"recovery", source:"User-defined"},
