@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software in research, please cite it using the metadata below."
+title: "Touch DNA Calculator"
+type: software
+authors:
+  - family-names: "Alviar"
+    given-names: "Aldrin John N."
+version: "0.2.4"
+date-released: "2026-09-06"
+repository-code: "https://github.com/aldrinalviar/touch-dna-calculator"
+url: "https://aldrinalviar.github.io/touch-dna-calculator/"
+license: "MIT"
+abstract: >-
+  A research-based calculator for exploring DNA retention, sampling loss,
+  recovery, and sequential touch-DNA pathways using research-linked parameters.
+keywords:
+  - forensic DNA
+  - touch DNA
+  - DNA transfer
+  - DNA retention
+  - forensic science
