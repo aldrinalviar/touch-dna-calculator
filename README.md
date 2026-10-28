@@ -122,6 +122,11 @@ This software is intended for:
 - exploratory touch DNA modeling
 - development of activity-level DNA transfer frameworks
 
+
+## Research Acknowledgement and Funding from NIJ
+
+- To the Principal Investigator and support funding from the National Institute of Justice
+
 ## Important Disclaimer
 
 The Touch DNA Calculator is currently a **research prototype**.
